@@ -277,16 +277,6 @@ public interface logoListener extends ParseTreeListener {
 	 */
 	void exitRepite(logoParser.RepiteContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link logoParser#condicionales}.
-	 * @param ctx the parse tree
-	 */
-	void enterCondicionales(logoParser.CondicionalesContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link logoParser#condicionales}.
-	 * @param ctx the parse tree
-	 */
-	void exitCondicionales(logoParser.CondicionalesContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link logoParser#si}.
 	 * @param ctx the parse tree
 	 */

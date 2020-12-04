@@ -40,10 +40,12 @@ instruccion
     |hazMientras
     |mientras
     |hasta
+    |si
+    |sisino
     ;
 
 procedimiento//Declara un procedimiento
-    :'para' nombre PAR_OPEN PAR_CLOSE
+    :'para' nombre PAR_OPEN listaParametros PAR_CLOSE
       instrucciones
       'fin'
     ;
@@ -133,10 +135,6 @@ repite//Repite n cantidad de vevces una orden
     :'repite' variable BRACKET_OPEN instrucciones BRACKET_CLOSE
     ;
 
-condicionales
-    :si
-    |sisino
-    ;
 
 si//Condicion instruccion
     :'si' PAR_OPEN expresionLogica PAR_CLOSE
@@ -200,10 +198,13 @@ expresionLogica
     | expresionLogicaSimple
     | PAR_OPEN booleanos PAR_CLOSE
     | booleanos
+    | BOOL
     ;
 
 expresionLogicaSimple
     : variable operadorCondicional variable
+    | mayorque
+    | menorque
     ;
 
 operadorCondicional
@@ -291,6 +292,7 @@ variable
     :expresionNumerica
     |nombre
     ;
+
 expresionNumerica
    : expresionNumericaSimple
    | PAR_OPEN expresionNumericaSimple PAR_CLOSE
@@ -312,7 +314,7 @@ expresionMultiplicativaSimple
    ;
 
 expresionConSigno
-   : (('+' | '-'))* NUMERO
+   : (('+' | '-'))* numero
    ;
 
 numero
@@ -322,8 +324,6 @@ numero
 comment
    : COMMENT
    ;
-
-
 
 listaParametros
    : BRACKET_OPEN  (nombre)* BRACKET_CLOSE
@@ -349,10 +349,8 @@ BRACKET_CLOSE: ']';
 PAR_OPEN: '(';
 PAR_CLOSE: ')';
 
-SEMICOLO: ';';
-
 COMMENT
-   : '//' ~[\r\n]* -> skip
+   : '//' ~ [\r\n]*
    ;
 
 STRINGLITERAL
@@ -372,12 +370,8 @@ NOMBRE
    |  [a-z]
    ;
 
-STRING
-   : CARACTER+
-   ;
-
-CARACTER
-   : [a-zA-Z0-9&@_]
+NUMERO
+   : [0-9] +
    ;
 
 BOOL
@@ -385,13 +379,12 @@ BOOL
    | 'FALSE'
    ;
 
-
-NUMERO
-   : [0-9] +
+STRING
+   : CARACTER+
    ;
 
-EOL
-   : '\n'
+CARACTER
+   : [a-zA-Z0-9&@_]
    ;
 
 WS

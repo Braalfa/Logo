@@ -3,7 +3,7 @@ import org.antlr.v4.runtime.tree.*;
 public class Main {
     public static void main(String[] args) throws Exception {
 // create a CharStream that reads from standard input
-        ANTLRInputStream input = new ANTLRInputStream("fd 60 rt 120 fd 60 rt 120 fd 60 rt 120 \n");
+        ANTLRInputStream input = new ANTLRInputStream("//sdsadsa \n haz pedo 4");
 // create a lexer that feeds off of input CharStream
         logoLexer lexer = new logoLexer(input);
 // create a buffer of tokens pulled from the lexer
