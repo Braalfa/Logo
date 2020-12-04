@@ -31,6 +31,7 @@ instruccion
     |goma
     |bajalapiz
     |subelapiz
+    |borrarPantalla
     |centro
     |espera
     |ejecuta
@@ -298,6 +299,7 @@ expresionNumerica
    | PAR_OPEN expresionNumericaSimple PAR_CLOSE
    | PAR_OPEN operacionAritmetica PAR_CLOSE
    | operacionAritmetica
+   | cuenta
    ;
 
 expresionNumericaSimple
