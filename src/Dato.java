@@ -3,9 +3,13 @@ import java.util.ArrayList;
 public class Dato {
     private Object dato;
     private int tipo;
+    private ArrayList<Integer> tipos;
+
     private final int TYPE_STRING=0;
     private final int TYPE_BOOL=1;
     private final int TYPE_INT=2;
+    private final int TYPE_ARRAY=3;
+
 
     public Object getDato() {
         return dato;
