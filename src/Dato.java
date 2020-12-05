@@ -7,6 +7,26 @@ public class Dato {
     private final int TYPE_BOOL=1;
     private final int TYPE_INT=2;
 
+    public Object getDato() {
+        return dato;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public int getTYPE_STRING() {
+        return TYPE_STRING;
+    }
+
+    public int getTYPE_BOOL() {
+        return TYPE_BOOL;
+    }
+
+    public int getTYPE_INT() {
+        return TYPE_INT;
+    }
+
     public Dato(Object dato, int tipo) {
         this.dato = dato;
         this.tipo = tipo;
