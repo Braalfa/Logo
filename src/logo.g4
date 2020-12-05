@@ -46,37 +46,45 @@ instruccion
     ;
 
 procedimiento//Declara un procedimiento
-    :'para' nombre PAR_OPEN listaParametros PAR_CLOSE
+    :'para' variable PAR_OPEN listaParametros PAR_CLOSE
       instrucciones
       'fin'
     ;
 
-haz//Inicialisa variables
-    :'haz' nombre primitivo
-    ;
-inic //altera el valor de la variable
-    :'inic' nombre '=' variable
+haz//Inicialisa tokenNumericos
+    :'haz' variable token
     ;
 
-inc//incrementsa uno o una segunda variables
-    :'inc' BRACKET_OPEN nombre variable BRACKET_CLOSE
-    |'inc' BRACKET_OPEN nombre BRACKET_CLOSE
+inic //altera el valor de la tokenNumerico
+    :'inic' variable '=' token
+    ;
+
+token:
+     STRINGLITERAL
+    | expresionLogica
+    | expresionNumerica
+    | expresionIndeterminada
+    ;
+
+inc//incrementsa uno o una segunda tokenNumericos
+    :'inc' BRACKET_OPEN variable tokenNumerico BRACKET_CLOSE
+    |'inc' BRACKET_OPEN variable BRACKET_CLOSE
     ;
 avanza //Mueve el avatar n valores hacia adelante
-    :'avanza' variable
-    |'av' variable
+    :'avanza' tokenNumerico
+    |'av' tokenNumerico
     ;
 retrocede //Mueve el avatar n valores hacia atras
-    :'retrocede' variable
-    |'re' variable
+    :'retrocede' tokenNumerico
+    |'re' tokenNumerico
     ;
 girarderecha //Gira hacia la derecha n angulos
-    :'girarDerecha' variable
-    |'gd' variable
+    :'girarDerecha' tokenNumerico
+    |'gd' tokenNumerico
     ;
 girarizquierda //Gira a la izquierda n angulos
-    :'girarIzquierda' variable
-    |'gi' variable
+    :'girarIzquierda' tokenNumerico
+    |'gi' tokenNumerico
     ;
 ocultartortuga //Oculta el avatar
     :'ocultartortuga'
@@ -87,21 +95,21 @@ aparecertortuga //Aparece el avatar en pantalla
     |'at'
     ;
 ponpos //Coloca a la tortuga en una posicion de cordenadas XY
-    :'ponpos' BRACKET_OPEN variable variable BRACKET_CLOSE
-    |'ponposxy' variable variable
+    :'ponpos' BRACKET_OPEN tokenNumerico tokenNumerico BRACKET_CLOSE
+    |'ponposxy' tokenNumerico tokenNumerico
     ;
 
 ponrumbo //Coloca el avatar en dirrecion del angulo
-    :'ponrumbo' variable
+    :'ponrumbo' tokenNumerico
     ;
 rumbo //Muestra el rumbo
     :'rumbo'
     ;
 ponx //Orientacion de la tortuga
-    :'ponx' variable
+    :'ponx' tokenNumerico
     ;
 pony //Orientacion de la tortuga
-    :'pony' variable
+    :'pony' tokenNumerico
     ;
 
 goma //Poen lapiz y para borrar
@@ -125,7 +133,7 @@ centro //Coloca la tortuga en el centro
     :'centro'
     ;
 espera //Espera n/60 segudnos para ejecutar
-    :'espera' variable
+    :'espera' tokenNumerico
     ;
 
 ejecuta //Ejecuta una orden directa
@@ -133,16 +141,16 @@ ejecuta //Ejecuta una orden directa
     ;
 
 repite//Repite n cantidad de vevces una orden
-    :'repite' variable BRACKET_OPEN instrucciones BRACKET_CLOSE
+    :'repite' tokenNumerico BRACKET_OPEN instrucciones BRACKET_CLOSE
     ;
 
 
 si//Condicion instruccion
-    :'si' PAR_OPEN expresionLogica PAR_CLOSE
+    :'si' PAR_OPEN tokenLogico PAR_CLOSE
      BRACKET_OPEN instrucciones BRACKET_CLOSE
     ;
 sisino //CondiCion y luego iNstruciones
-    :'sisino' PAR_OPEN expresionLogica PAR_CLOSE
+    :'sisino' PAR_OPEN tokenLogico PAR_CLOSE
      BRACKET_OPEN instrucciones BRACKET_CLOSE
      BRACKET_OPEN instrucciones BRACKET_CLOSE
     ;
@@ -152,10 +160,10 @@ hasHasta //Repite la lista de instrucciones tanta veces hasta que se cumpla la c
       BRACKET_OPEN
             instrucciones
       BRACKET_CLOSE
-      BRACKET_OPEN  expresionLogica  BRACKET_CLOSE
+      BRACKET_OPEN  tokenLogico  BRACKET_CLOSE
     ;
 hasta //Repite la lista de instrucciones tanta veces hasta que se cumpla la condición
-    :'hasta' BRACKET_OPEN  expresionLogica  BRACKET_CLOSE
+    :'hasta' BRACKET_OPEN  tokenLogico  BRACKET_CLOSE
      BRACKET_OPEN
             instrucciones
      BRACKET_CLOSE
@@ -166,11 +174,11 @@ hazMientras //
       BRACKET_OPEN
             instrucciones
       BRACKET_CLOSE
-      BRACKET_OPEN  expresionLogica  BRACKET_CLOSE
+      BRACKET_OPEN  tokenLogico  BRACKET_CLOSE
     ;
 
 mientras //Repite las instrucciones mientras se cumplan las condiciones eh intrucciones
-    :'mientras' BRACKET_OPEN  expresionLogica  BRACKET_CLOSE
+    :'mientras' BRACKET_OPEN  tokenLogico  BRACKET_CLOSE
       BRACKET_OPEN
             instrucciones
       BRACKET_CLOSE
@@ -183,15 +191,20 @@ booleanos
     ;
 
 iguales //Devuelve un true si las dos entradas n1,n2 son iguales
-    :'iguales?' variable  variable
+    :'iguales?' tokenNumerico  tokenNumerico
     ;
 
 yLogico //Devuelve cierto si las dos condisiones son ciertas
-    :'y' expresionLogica  expresionLogica
+    :'y' tokenLogico  tokenLogico
     ;
 
 oLogico //Devuelve cieto al menos una condiccion es cierta
-    :'o' expresionLogica  expresionLogica
+    :'o' tokenLogico  tokenLogico
+    ;
+
+tokenLogico
+    : expresionLogica
+    | expresionIndeterminada
     ;
 
 expresionLogica
@@ -203,7 +216,7 @@ expresionLogica
     ;
 
 expresionLogicaSimple
-    : variable operadorCondicional variable
+    : tokenNumerico operadorCondicional tokenNumerico
     | mayorque
     | menorque
     ;
@@ -215,10 +228,10 @@ operadorCondicional
     ;
 
 mayorque //Devuelve si N1 es mayor que N2
-    : 'mayorque?' variable  variable
+    : 'mayorque?' tokenNumerico  tokenNumerico
     ;
 menorque //Devuelve si N1 es menor que N2
-    : 'menorque?' variable  variable
+    : 'menorque?' tokenNumerico  tokenNumerico
     ;
 
 operacionAritmetica
@@ -234,39 +247,48 @@ operacionAritmetica
     ;
 
 redondea//aproxima un decimal n hasta al entero mas positivo
-    :'redondea' variable
+    :'redondea' tokenNumerico
     ;
 diferencia//Diferencia (n1-n2-n3...)
-    :'diferencia' variable (variable)+
+    :'diferencia' tokenNumerico (tokenNumerico)+
     ;
 
 azar//Genera un numero decimal n hasta el numero proximo
-    :'azar' variable
+    :'azar' tokenNumerico
     ;
 
 menos //cambia el signo de de n
-    :'menos' variable
+    :'menos' tokenNumerico
     ;
 
 producto //Multiplicar n numeros
-    :'producto' variable (variable)+
+    :'producto' tokenNumerico (tokenNumerico)+
     ;
 
 potencia //Calcula una potencia, dos numeors
-    :'potencia' variable  variable
+    :'potencia' tokenNumerico  tokenNumerico
     ;
 
 division //division de dos numeros
-    :'division' variable variable
+    :'division' tokenNumerico tokenNumerico
     ;
 
 resto //El residuo de una division entera, dos numeros
-    :'resto' variable  variable
+    :'resto' tokenNumerico  tokenNumerico
     ;
 
 suma //Suma de numeros-Revisar como tener n-numeros
-    :'suma' variable (variable)+
+    :'suma' tokenNumerico (tokenNumerico)+
     ;
+
+expresionIndeterminada
+    : elegir
+    | ultimo
+    | elemento
+    | primero
+    | variable
+    ;
+
 
 elegir //Devuelve un elemento al azar de la lista.
     :'elegir' lista
@@ -280,7 +302,7 @@ ultimo //Devuelve el ultimo elemento de la lista
     |'ul' lista
     ;
 elemento//Devuelve el n-esimo elemento de lista
-    :'elemento' variable lista
+    :'elemento' tokenNumerico lista
     ;
 primero //Devuelve el primer elemento de la lista
     : 'primero' lista
@@ -289,9 +311,11 @@ primero //Devuelve el primer elemento de la lista
 borrarPantalla //Limpia completamente el liezo
     :'borrarPantalla'
     ;
-variable
-    :expresionNumerica
-    |nombre
+    
+
+tokenNumerico
+    : expresionNumerica
+    | expresionIndeterminada
     ;
 
 expresionNumerica
@@ -328,22 +352,16 @@ comment
    ;
 
 listaParametros
-   : BRACKET_OPEN  (nombre)* BRACKET_CLOSE
+   : BRACKET_OPEN  (variable)* BRACKET_CLOSE
    ;
 
 lista
-    : BRACKET_OPEN  (primitivo ) + BRACKET_CLOSE
+    : BRACKET_OPEN (token)+ BRACKET_CLOSE
     ;
 
-nombre
+variable
    : NOMBRE
    ;
-
-primitivo
-    :NUMERO
-    |STRINGLITERAL
-    |BOOL
-    ;
 
 BRACKET_OPEN: '[';
 BRACKET_CLOSE: ']';
