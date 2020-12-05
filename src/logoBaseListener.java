@@ -4,6 +4,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class provides an empty implementation of {@link logoListener},
  * which can be extended to create a listener which only needs to handle a subset
@@ -15,7 +18,13 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrograma(logoParser.ProgramaContext ctx) { }
+
+	private final Map<String, Integer> integerMap = new HashMap<>();
+	private final Map<String, String> stringStringMap = new HashMap<>();
+	private final Map<String, Boolean> booleanMap = new HashMap<>();
+
+
+	@Override public void enterPrograma(logoParser.ProgramaContext ctx) {}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -651,7 +660,7 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSuma(logoParser.SumaContext ctx) { }
+	@Override public void enterSuma(logoParser.SumaContext ctx) {}
 	/**
 	 * {@inheritDoc}
 	 *
