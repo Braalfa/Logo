@@ -3,12 +3,10 @@ import java.util.ArrayList;
 public class Dato {
     private Object dato;
     private int tipo;
-    private ArrayList<Integer> tipos;
 
-    private final int TYPE_STRING=0;
-    private final int TYPE_BOOL=1;
-    private final int TYPE_INT=2;
-    private final int TYPE_ARRAY=3;
+    public static final int TYPE_STRING=0;
+    public static final int TYPE_BOOL=1;
+    public static final int TYPE_INT=2;
 
 
     public Object getDato() {
@@ -46,9 +44,5 @@ public class Dato {
 
     public Boolean getDatoAsBoolean(){
         return (Boolean) dato;
-    }
-
-    public ArrayList<Object> getDatoAsArrayList(){
-        return (ArrayList<Object>) dato;
     }
 }

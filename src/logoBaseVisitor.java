@@ -11,7 +11,7 @@ import java.util.Map;
  * 
  * operations with no return type.
  */
-public class logoBaseVisitor<Dato> extends AbstractParseTreeVisitor<Dato> implements logoVisitor<Dato> {
+public class logoBaseVisitor extends AbstractParseTreeVisitor<Dato> implements logoVisitor<Dato> {
 
 	private final Map<String, Integer> integerMap = new HashMap<>();
 	private final Map<String, String> stringStringMap = new HashMap<>();
@@ -527,5 +527,7 @@ public class logoBaseVisitor<Dato> extends AbstractParseTreeVisitor<Dato> implem
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public Dato visitString(logoParser.StringContext ctx) { return visitChildren(ctx); }
+	@Override public Dato visitString(logoParser.StringContext ctx) {
+		return new Dato( ctx.STRING().getSymbol().getText(), Dato.TYPE_STRING);
+	}
 }

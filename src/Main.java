@@ -15,6 +15,5 @@ public class Main {
         logoBaseListener extractor = new logoBaseListener();
 
         ParseTreeWalker.DEFAULT.walk(extractor, tree); // initiate walk of tree with listener in use of default walker
-
     }
 }
