@@ -1,4 +1,4 @@
-// Generated from src\logo.g4 by ANTLR 4.8
+// Generated from C:/Users/alfab/Desktop/Practica Para el Examen 2/Logo/src\logo.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -76,6 +76,16 @@ public interface logoListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInic(logoParser.InicContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link logoParser#token}.
+	 * @param ctx the parse tree
+	 */
+	void enterToken(logoParser.TokenContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link logoParser#token}.
+	 * @param ctx the parse tree
+	 */
+	void exitToken(logoParser.TokenContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link logoParser#inc}.
 	 * @param ctx the parse tree
@@ -377,6 +387,16 @@ public interface logoListener extends ParseTreeListener {
 	 */
 	void exitOLogico(logoParser.OLogicoContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link logoParser#tokenLogico}.
+	 * @param ctx the parse tree
+	 */
+	void enterTokenLogico(logoParser.TokenLogicoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link logoParser#tokenLogico}.
+	 * @param ctx the parse tree
+	 */
+	void exitTokenLogico(logoParser.TokenLogicoContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link logoParser#expresionLogica}.
 	 * @param ctx the parse tree
 	 */
@@ -527,6 +547,16 @@ public interface logoListener extends ParseTreeListener {
 	 */
 	void exitSuma(logoParser.SumaContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link logoParser#expresionIndeterminada}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpresionIndeterminada(logoParser.ExpresionIndeterminadaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link logoParser#expresionIndeterminada}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpresionIndeterminada(logoParser.ExpresionIndeterminadaContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link logoParser#elegir}.
 	 * @param ctx the parse tree
 	 */
@@ -587,15 +617,15 @@ public interface logoListener extends ParseTreeListener {
 	 */
 	void exitBorrarPantalla(logoParser.BorrarPantallaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link logoParser#variable}.
+	 * Enter a parse tree produced by {@link logoParser#tokenNumerico}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariable(logoParser.VariableContext ctx);
+	void enterTokenNumerico(logoParser.TokenNumericoContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link logoParser#variable}.
+	 * Exit a parse tree produced by {@link logoParser#tokenNumerico}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariable(logoParser.VariableContext ctx);
+	void exitTokenNumerico(logoParser.TokenNumericoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link logoParser#expresionNumerica}.
 	 * @param ctx the parse tree
@@ -687,23 +717,13 @@ public interface logoListener extends ParseTreeListener {
 	 */
 	void exitLista(logoParser.ListaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link logoParser#nombre}.
+	 * Enter a parse tree produced by {@link logoParser#variable}.
 	 * @param ctx the parse tree
 	 */
-	void enterNombre(logoParser.NombreContext ctx);
+	void enterVariable(logoParser.VariableContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link logoParser#nombre}.
+	 * Exit a parse tree produced by {@link logoParser#variable}.
 	 * @param ctx the parse tree
 	 */
-	void exitNombre(logoParser.NombreContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link logoParser#primitivo}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrimitivo(logoParser.PrimitivoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link logoParser#primitivo}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrimitivo(logoParser.PrimitivoContext ctx);
+	void exitVariable(logoParser.VariableContext ctx);
 }

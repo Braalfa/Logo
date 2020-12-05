@@ -1,4 +1,4 @@
-// Generated from src\logo.g4 by ANTLR 4.8
+// Generated from C:/Users/alfab/Desktop/Practica Para el Examen 2/Logo/src\logo.g4 by ANTLR 4.8
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -94,6 +94,18 @@ public class logoBaseListener implements logoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInic(logoParser.InicContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterToken(logoParser.TokenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitToken(logoParser.TokenContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -459,6 +471,18 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTokenLogico(logoParser.TokenLogicoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTokenLogico(logoParser.TokenLogicoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpresionLogica(logoParser.ExpresionLogicaContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -639,6 +663,18 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExpresionIndeterminada(logoParser.ExpresionIndeterminadaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpresionIndeterminada(logoParser.ExpresionIndeterminadaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterElegir(logoParser.ElegirContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -711,13 +747,13 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVariable(logoParser.VariableContext ctx) { }
+	@Override public void enterTokenNumerico(logoParser.TokenNumericoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVariable(logoParser.VariableContext ctx) { }
+	@Override public void exitTokenNumerico(logoParser.TokenNumericoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -831,25 +867,13 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNombre(logoParser.NombreContext ctx) { }
+	@Override public void enterVariable(logoParser.VariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNombre(logoParser.NombreContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimitivo(logoParser.PrimitivoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimitivo(logoParser.PrimitivoContext ctx) { }
+	@Override public void exitVariable(logoParser.VariableContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
