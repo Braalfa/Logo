@@ -60,7 +60,7 @@ inic //altera el valor de la tokenNumerico
     ;
 
 token:
-     STRINGLITERAL
+     string
     | expresionLogica
     | expresionNumerica
     | expresionIndeterminada
@@ -126,8 +126,8 @@ subelapiz //El lapiz deja de dibujar cuando se mueve
     ;
 
 poncolor //Establece el color en el que se pinta
-    :'poncolorlapiz' STRINGLITERAL
-    |'poncl' STRINGLITERAL
+    :'poncolorlapiz' string
+    |'poncl' string
     ;
 centro //Coloca la tortuga en el centro
     :'centro'
@@ -363,6 +363,10 @@ variable
    : NOMBRE
    ;
 
+string
+   : '"' STRING '"'
+   ;
+
 BRACKET_OPEN: '[';
 BRACKET_CLOSE: ']';
 
@@ -371,10 +375,6 @@ PAR_CLOSE: ')';
 
 COMMENT
    : '//' ~ [\r\n]*
-   ;
-
-STRINGLITERAL
-   : '"' STRING '"'
    ;
 
 NOMBRE

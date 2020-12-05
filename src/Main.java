@@ -12,5 +12,9 @@ public class Main {
         logoParser parser = new logoParser(tokens);
         ParseTree tree = parser.programa(); // begin parsing at init rule
         System.out.println(tree.toStringTree()); // print LISP-style tree
+        logoBaseListener extractor = new logoBaseListener();
+
+        ParseTreeWalker.DEFAULT.walk(extractor, tree); // initiate walk of tree with listener in use of default walker
+
     }
 }

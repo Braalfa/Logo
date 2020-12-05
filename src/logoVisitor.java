@@ -441,4 +441,10 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVariable(logoParser.VariableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link logoParser#string}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(logoParser.StringContext ctx);
 }
