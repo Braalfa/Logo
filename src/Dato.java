@@ -29,6 +29,10 @@ public class Dato {
         return TYPE_INT;
     }
 
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
     public Dato(Object dato, int tipo) {
         this.dato = dato;
         this.tipo = tipo;
