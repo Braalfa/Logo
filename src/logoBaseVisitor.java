@@ -352,7 +352,26 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitDiferencia(logoParser.DiferenciaContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitDiferencia(logoParser.DiferenciaContext ctx) {
+		List<Dato> dato = new ArrayList<>();
+		List<logoParser.TokenNumericoContext> listaContext = ctx.tokenNumerico();
+
+		for(logoParser.TokenNumericoContext tokenNumericoContext: listaContext){
+			dato.addAll(visitTokenNumerico(tokenNumericoContext));
+		}
+
+		int resultado=dato.get(0).getDatoAsInteger();
+		int contador=1;
+		while (dato.size()>contador){
+			resultado-=dato.get(contador).getDatoAsInteger();
+			contador++;
+		}
+
+		List<Dato> returnVal= new ArrayList<>();
+		returnVal.add(new Dato(resultado,Dato.TYPE_INT));
+		return returnVal;
+
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -394,14 +413,25 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitResto(logoParser.RestoContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitResto(logoParser.RestoContext ctx) { return visitChildren(ctx);}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitSuma(logoParser.SumaContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitSuma(logoParser.SumaContext ctx) {
+		List<Dato> dato = visitChildren(ctx);
+		int valorSuma=0;
+		int contador=1;
+		while (dato.size()>contador){
+			valorSuma+=dato.get(contador).getDatoAsInteger();
+			contador++;
+		}
+		List<Dato> returnVal= new ArrayList<>();
+		returnVal.add(new Dato(valorSuma,Dato.TYPE_INT));
+		return returnVal;
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -444,10 +474,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitPrimero(logoParser.PrimeroContext ctx) {
-		List<Dato> datos = visitChildren(ctx);
-		List<Dato> retVal = new ArrayList<>();
-		retVal.add(datos.get(1));
-		return retVal;
+		List<Dato> returnVal = new ArrayList<Dato>();
+		returnVal.add(visitLista(ctx.lista()).get(0));
+		return returnVal;
 	}
 	/**
 	 * {@inheritDoc}
