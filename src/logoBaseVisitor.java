@@ -208,28 +208,51 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitEjecuta(logoParser.EjecutaContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitEjecuta(logoParser.EjecutaContext ctx) {
+		visitInstrucciones(ctx.instrucciones());
+		return new ArrayList<>();
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitRepite(logoParser.RepiteContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitRepite(logoParser.RepiteContext ctx) {
+		Integer rango=visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
+		for(int i = 0;i < rango; i++){
+			visitInstrucciones(ctx.instrucciones());
+		}
+		return new ArrayList<>();
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitSi(logoParser.SiContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitSi(logoParser.SiContext ctx) {
+		Boolean condicion=visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
+		if(condicion){
+			visitInstrucciones(ctx.instrucciones());
+		}
+		return new ArrayList<>();
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitSisino(logoParser.SisinoContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitSisino(logoParser.SisinoContext ctx) {
+		Boolean condicion=visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
+		if(condicion){
+			visitInstrucciones(ctx.instrucciones(0));
+		}else{
+			visitInstrucciones(ctx.instrucciones(1));
+		}
+		return new ArrayList<>();
+	}
 	/**
 	 * {@inheritDoc}
 	 *
