@@ -3,10 +3,7 @@ import com.sun.org.apache.xerces.internal.impl.xs.util.XSObjectListImpl;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class provides an empty implementation of {@link logoVisitor},
@@ -77,7 +74,6 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitToken(logoParser.TokenContext ctx) {
-		ctx.children.size();
 		return visitChildren(ctx);
 	}
 	/**
@@ -240,28 +236,58 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitHasHasta(logoParser.HasHastaContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitHasHasta(logoParser.HasHastaContext ctx) {
+		Boolean condicion;
+		do{
+			visitInstrucciones(ctx.instrucciones());
+			condicion=visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
+		}while (!condicion);
+		return new ArrayList<>();
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitHasta(logoParser.HastaContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitHasta(logoParser.HastaContext ctx) {
+		Boolean condicion = visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
+		while(!condicion){
+			visitInstrucciones(ctx.instrucciones());
+			condicion=visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
+		}
+		return new ArrayList<>();
+
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitHazMientras(logoParser.HazMientrasContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitHazMientras(logoParser.HazMientrasContext ctx) {
+		Boolean condicion;
+		do{
+			visitInstrucciones(ctx.instrucciones());
+			condicion=visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
+		}while (condicion);
+		return new ArrayList<>();
+
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitMientras(logoParser.MientrasContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitMientras(logoParser.MientrasContext ctx) {
+		Boolean condicion = visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
+		while(condicion){
+			visitInstrucciones(ctx.instrucciones());
+			condicion=visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
+		}
+		return new ArrayList<>();
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -438,35 +464,61 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitExpresionIndeterminada(logoParser.ExpresionIndeterminadaContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitExpresionIndeterminada(logoParser.ExpresionIndeterminadaContext ctx) {
+		return visitChildren(ctx);
+		//Lista, dejar asi
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitElegir(logoParser.ElegirContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitElegir(logoParser.ElegirContext ctx) {
+		List<Dato> returnVal = new ArrayList<>();
+		List<Dato> lista = visitLista(ctx.lista());
+		Random rand= new Random();
+		returnVal.add(lista.get(rand.nextInt(lista.size())));
+		return returnVal;
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitCuenta(logoParser.CuentaContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitCuenta(logoParser.CuentaContext ctx) {
+		List<Dato> returnVal = new ArrayList<>();
+		List<Dato> lista = visitLista(ctx.lista());
+		returnVal.add(new Dato(lista.size(),Dato.TYPE_INT));
+		return returnVal;
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitUltimo(logoParser.UltimoContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitUltimo(logoParser.UltimoContext ctx) {
+		List<Dato> returnVal = new ArrayList<>();
+		List<Dato> lista = visitLista(ctx.lista());
+		returnVal.add(lista.get(lista.size()-1));
+		return returnVal;
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitElemento(logoParser.ElementoContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitElemento(logoParser.ElementoContext ctx){
+		List<Dato> lista = visitLista(ctx.lista());
+		Integer elemento = visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
+
+		List<Dato> returnVal= new ArrayList<Dato>();
+		returnVal.add(lista.get(elemento));
+		return returnVal;
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -547,7 +599,13 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitListaParametros(logoParser.ListaParametrosContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitListaParametros(logoParser.ListaParametrosContext ctx) {
+		List<Dato> datos = visitChildren(ctx);
+		datos.remove(0);
+		datos.remove(datos.size()-1);
+		return datos;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -567,9 +625,28 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitVariable(logoParser.VariableContext ctx) { 
-		return visitChildren(ctx); 
+	@Override public List<Dato> visitVariable(logoParser.VariableContext ctx) {
+		String key=ctx.NOMBRE().getSymbol().getText();
+		Integer integerValue=integerMap.get(key);
+		String stringValue=stringStringMap.get(key);
+		Boolean boolValue=booleanMap.get(key);
+		Dato dato=null;
+		if(integerValue!=null){
+			dato= new Dato(integerValue,Dato.TYPE_INT);
+		}else if(stringValue!=null){
+			dato= new Dato(stringValue,Dato.TYPE_STRING);
+		}else if(boolValue!=null){
+			dato= new Dato(boolValue,Dato.TYPE_BOOL);
+		}else{
+			///ERROR: la variable no existe
+			///Falta manejo de errores
+		}
+		List<Dato> retval= new ArrayList<>();
+		retval.add(dato);
+		return retval;
 	}
+
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -578,6 +655,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitString(logoParser.StringContext ctx) {
 		return visitChildren(ctx);
+		//Lista, dejar asi
 	}
 
 	@Override
