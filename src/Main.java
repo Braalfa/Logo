@@ -6,7 +6,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 // create a CharStream that reads from standard input
-        ANTLRInputStream input = new ANTLRInputStream("primero [ 5 3 2 3 ]");
+        ANTLRInputStream input = new ANTLRInputStream("");
 // create a lexer that feeds off of input CharStream
         logoLexer lexer = new logoLexer(input);
 // create a buffer of tokens pulled from the lexer
