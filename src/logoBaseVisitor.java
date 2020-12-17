@@ -18,6 +18,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	private final Map<String, String> stringStringMap = new HashMap<>();
 	private final Map<String, Boolean> booleanMap = new HashMap<>();
 
+	private final Map<String, Funcion> funcionMap = new HashMap<>();
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -55,7 +57,13 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitProcedimiento(logoParser.ProcedimientoContext ctx) {
 		String variable = visitVariable(ctx.variable()).get(0).getDatoAsString();
 		List<Dato> parametros = visitListaParametros(ctx.listaParametros());
-		visitInstrucciones(ctx.instrucciones());
+		List<String> stringParam = new ArrayList<>();
+
+		for (Dato parametro : parametros) {
+			stringParam.add(parametro.getDatoAsString());
+		}
+
+		funcionMap.put(variable, new Funcion(variable, stringParam, ctx.instrucciones()));
 		return new ArrayList<>();
 	}
 	/**
@@ -66,15 +74,15 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitHaz(logoParser.HazContext ctx) {
 		String variable = ctx.variable().getText();
-		Dato valor = visitToken(ctx.token()).get(0);
+		Dato token = visitToken(ctx.token()).get(0);
 
-		Integer integerValue = valor.getDatoAsInteger();;
-		String stringValue = valor.getDatoAsString();
-		Boolean boolValue = valor.getDatoAsBoolean();
-
-		integerMap.put(variable,integerValue);
-		stringStringMap.put(variable,stringValue);
-		booleanMap.put(variable,boolValue);
+		if (token.getTipo() == Dato.TYPE_STRING){
+			stringStringMap.put(variable,token.getDatoAsString());
+		}else if(token.getTipo() == Dato.TYPE_INT){
+			integerMap.put(variable,token.getDatoAsInteger());
+		}else{
+			booleanMap.put(variable,token.getDatoAsBoolean());
+		}
 
 		return new ArrayList<>();
 	}
@@ -86,8 +94,15 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitInic(logoParser.InicContext ctx) {
 		String variable = visitVariable(ctx.variable()).get(0).getDatoAsString();
-		List<Dato> token = visitToken(ctx.token());
+		Dato token = visitToken(ctx.token()).get(0);
 
+		if (token.getTipo() == Dato.TYPE_STRING){
+			stringStringMap.replace(variable,token.getDatoAsString());
+		}else if(token.getTipo() == Dato.TYPE_INT){
+			integerMap.replace(variable,token.getDatoAsInteger());
+		}else{
+			booleanMap.replace(variable,token.getDatoAsBoolean());
+		}
 		return visitChildren(ctx);
 	}
 	/**
@@ -107,18 +122,16 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitInc(logoParser.IncContext ctx) {
 		String variable = visitVariable(ctx.variable()).get(0).getDatoAsString();
-		Integer token = visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
+		List<Dato>tokens = visitTokenNumerico(ctx.tokenNumerico());
 		int currentVar = integerMap.get(variable);
-		System.out.println("Variable actual: "+variable+" = "+currentVar);
 
 		int incVar;
-		if(token == null){
+		if(tokens.size() == 0){
 			incVar = currentVar + 1;
 		} else{
-			incVar = currentVar * token;
+			incVar = currentVar * tokens.get(0).getDatoAsInteger();
 		}
-		integerMap.replace(variable,currentVar,incVar);
-		System.out.println("Variable ahora: "+variable+" = "+incVar);
+		integerMap.replace(variable,incVar);
 		return new ArrayList<>();
 	}
 	/**
@@ -365,8 +378,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitIguales(logoParser.IgualesContext ctx) {
 		List<Dato> returnVal= new ArrayList<>();
 
-		Integer n1 =visitTokenNumerico((logoParser.TokenNumericoContext) ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		Integer n2 =visitTokenNumerico((logoParser.TokenNumericoContext) ctx.tokenNumerico()).get(1).getDatoAsInteger();
+		Integer n1 =visitTokenNumerico( ctx.tokenNumerico().get(0)).get(0).getDatoAsInteger();
+		Integer n2 =visitTokenNumerico( ctx.tokenNumerico().get(1)).get(0).getDatoAsInteger();
 
 		if (n1.equals(n2)){
 			returnVal.add(new Dato(true,Dato.TYPE_BOOL));
@@ -385,8 +398,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitYLogico(logoParser.YLogicoContext ctx) {
 		List<Dato> returnVal= new ArrayList<>();
 
-		Boolean condicion1 = visitTokenLogico((logoParser.TokenLogicoContext) ctx.tokenLogico()).get(0).getDatoAsBoolean();
-		Boolean condicion2 = visitTokenLogico((logoParser.TokenLogicoContext) ctx.tokenLogico()).get(1).getDatoAsBoolean();
+		Boolean condicion1 =visitTokenLogico( ctx.tokenLogico().get(0)).get(0).getDatoAsBoolean();
+		Boolean condicion2 =visitTokenLogico( ctx.tokenLogico().get(1)).get(0).getDatoAsBoolean();
 
 		if (condicion1 && condicion2){
 			returnVal.add(new Dato(true,Dato.TYPE_BOOL));
@@ -405,8 +418,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitOLogico(logoParser.OLogicoContext ctx) {
 		List<Dato> returnVal= new ArrayList<>();
 
-		Boolean condicion1 = visitTokenLogico((logoParser.TokenLogicoContext) ctx.tokenLogico()).get(0).getDatoAsBoolean();
-		Boolean condicion2 = visitTokenLogico((logoParser.TokenLogicoContext) ctx.tokenLogico()).get(1).getDatoAsBoolean();
+		Boolean condicion1 =visitTokenLogico( ctx.tokenLogico().get(0)).get(0).getDatoAsBoolean();
+		Boolean condicion2 =visitTokenLogico( ctx.tokenLogico().get(1)).get(0).getDatoAsBoolean();
 
 		if (condicion1 || condicion2){
 			returnVal.add(new Dato(true,Dato.TYPE_BOOL));
@@ -429,7 +442,18 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitExpresionLogica(logoParser.ExpresionLogicaContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitExpresionLogica(logoParser.ExpresionLogicaContext ctx) {
+		List<Dato> returnVal = new ArrayList<>();
+		if(ctx.BOOL()!=null){
+			String symbol=ctx.BOOL().getSymbol().getText();
+			if(symbol.equals("TRUE")){
+				returnVal.add(new Dato(true, Dato.TYPE_BOOL));
+			}else{
+				returnVal.add(new Dato(false, Dato.TYPE_BOOL));
+			}
+		}
+		return returnVal;
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -453,8 +477,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitMayorque(logoParser.MayorqueContext ctx) {
 		List<Dato> returnVal= new ArrayList<>();
 
-		Integer n1 =visitTokenNumerico((logoParser.TokenNumericoContext) ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		Integer n2 =visitTokenNumerico((logoParser.TokenNumericoContext) ctx.tokenNumerico()).get(1).getDatoAsInteger();
+		Integer n1 =visitTokenNumerico( ctx.tokenNumerico().get(0)).get(0).getDatoAsInteger();
+		Integer n2 =visitTokenNumerico( ctx.tokenNumerico().get(1)).get(0).getDatoAsInteger();
 
 		if (n1 > n2){
 			returnVal.add(new Dato(true,Dato.TYPE_BOOL));
@@ -473,8 +497,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitMenorque(logoParser.MenorqueContext ctx) {
 		List<Dato> returnVal= new ArrayList<>();
 
-		Integer n1 =visitTokenNumerico((logoParser.TokenNumericoContext) ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		Integer n2 =visitTokenNumerico((logoParser.TokenNumericoContext) ctx.tokenNumerico()).get(1).getDatoAsInteger();
+		Integer n1 =visitTokenNumerico( ctx.tokenNumerico().get(0)).get(0).getDatoAsInteger();
+		Integer n2 =visitTokenNumerico( ctx.tokenNumerico().get(1)).get(0).getDatoAsInteger();
 
 		if (n1 < n2){
 			returnVal.add(new Dato(true,Dato.TYPE_BOOL));
@@ -538,14 +562,12 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitAzar(logoParser.AzarContext ctx) {
 		List<Dato> returnVal= new ArrayList<>();
-		System.out.println("Rango: " + visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsString());
 		Integer rango = visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 
 		Random rand= new Random();
 		Integer randVal = rand.nextInt(rango+1);
 
 		returnVal.add(new Dato(randVal,Dato.TYPE_INT));
-		System.out.println("Azar: " + randVal);
 
 		return returnVal;
 	}
@@ -795,7 +817,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitNumero(logoParser.NumeroContext ctx) {
 		String numeroInt = ctx.NUMERO().getSymbol().getText();
-		Dato numeroDato = new Dato( Dato.TYPE_INT,Integer.parseInt(numeroInt));
+		Dato numeroDato = new Dato(Integer.parseInt(numeroInt),Dato.TYPE_INT);
 		List<Dato> datos = new ArrayList<>();
 		datos.add(numeroDato);
 		return datos;
