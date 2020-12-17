@@ -793,7 +793,13 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitNumero(logoParser.NumeroContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitNumero(logoParser.NumeroContext ctx) {
+		String numeroInt = ctx.NUMERO().getSymbol().getText();
+		Dato numeroDato = new Dato( Dato.TYPE_INT,Integer.parseInt(numeroInt));
+		List<Dato> datos = new ArrayList<>();
+		datos.add(numeroDato);
+		return datos;
+	}
 	/**
 	 * {@inheritDoc}
 	 *
