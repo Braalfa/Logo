@@ -49,4 +49,10 @@ public class Dato {
     public Boolean getDatoAsBoolean(){
         return (Boolean) dato;
     }
+
+    public ArrayList<Dato> toSingleArraylist(){
+        ArrayList<Dato> retval=new ArrayList<>();
+        retval.add(this);
+        return retval;
+    }
 }
