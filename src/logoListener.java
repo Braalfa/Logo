@@ -467,16 +467,6 @@ public interface logoListener extends ParseTreeListener {
 	 */
 	void exitRedondea(logoParser.RedondeaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link logoParser#diferencia}.
-	 * @param ctx the parse tree
-	 */
-	void enterDiferencia(logoParser.DiferenciaContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link logoParser#diferencia}.
-	 * @param ctx the parse tree
-	 */
-	void exitDiferencia(logoParser.DiferenciaContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link logoParser#azar}.
 	 * @param ctx the parse tree
 	 */
@@ -536,6 +526,16 @@ public interface logoListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitResto(logoParser.RestoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link logoParser#diferencia}.
+	 * @param ctx the parse tree
+	 */
+	void enterDiferencia(logoParser.DiferenciaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link logoParser#diferencia}.
+	 * @param ctx the parse tree
+	 */
+	void exitDiferencia(logoParser.DiferenciaContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link logoParser#suma}.
 	 * @param ctx the parse tree
@@ -637,16 +637,6 @@ public interface logoListener extends ParseTreeListener {
 	 */
 	void exitExpresionNumerica(logoParser.ExpresionNumericaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link logoParser#expresionNumericaSimple}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpresionNumericaSimple(logoParser.ExpresionNumericaSimpleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link logoParser#expresionNumericaSimple}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpresionNumericaSimple(logoParser.ExpresionNumericaSimpleContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link logoParser#expresionMultiplicativa}.
 	 * @param ctx the parse tree
 	 */
@@ -657,16 +647,6 @@ public interface logoListener extends ParseTreeListener {
 	 */
 	void exitExpresionMultiplicativa(logoParser.ExpresionMultiplicativaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link logoParser#expresionMultiplicativaSimple}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpresionMultiplicativaSimple(logoParser.ExpresionMultiplicativaSimpleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link logoParser#expresionMultiplicativaSimple}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpresionMultiplicativaSimple(logoParser.ExpresionMultiplicativaSimpleContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link logoParser#expresionConSigno}.
 	 * @param ctx the parse tree
 	 */
@@ -676,6 +656,16 @@ public interface logoListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpresionConSigno(logoParser.ExpresionConSignoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link logoParser#expresionNumericaCompleja}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link logoParser#expresionNumericaCompleja}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link logoParser#numero}.
 	 * @param ctx the parse tree

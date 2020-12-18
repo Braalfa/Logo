@@ -286,12 +286,6 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRedondea(logoParser.RedondeaContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link logoParser#diferencia}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDiferencia(logoParser.DiferenciaContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link logoParser#azar}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -327,6 +321,12 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitResto(logoParser.RestoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link logoParser#diferencia}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDiferencia(logoParser.DiferenciaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#suma}.
 	 * @param ctx the parse tree
@@ -388,29 +388,23 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpresionNumerica(logoParser.ExpresionNumericaContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link logoParser#expresionNumericaSimple}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpresionNumericaSimple(logoParser.ExpresionNumericaSimpleContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link logoParser#expresionMultiplicativa}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpresionMultiplicativa(logoParser.ExpresionMultiplicativaContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link logoParser#expresionMultiplicativaSimple}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpresionMultiplicativaSimple(logoParser.ExpresionMultiplicativaSimpleContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link logoParser#expresionConSigno}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpresionConSigno(logoParser.ExpresionConSignoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link logoParser#expresionNumericaCompleja}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#numero}.
 	 * @param ctx the parse tree

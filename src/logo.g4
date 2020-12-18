@@ -59,8 +59,9 @@ inic //altera el valor de la tokenNumerico
     :'inic' variable '=' token
     ;
 
-token:
-     string
+token
+    : PAR_OPEN token PAR_CLOSE
+    | string
     | expresionLogica
     | expresionNumerica
     | expresionIndeterminada
@@ -203,14 +204,13 @@ oLogico //Devuelve cieto al menos una condiccion es cierta
     ;
 
 tokenLogico
-    : expresionLogica
+    : PAR_OPEN tokenLogico PAR_CLOSE
+    | expresionLogica
     | expresionIndeterminada
     ;
 
 expresionLogica
-    : PAR_OPEN expresionLogicaSimple PAR_CLOSE
-    | expresionLogicaSimple
-    | PAR_OPEN booleanos PAR_CLOSE
+    : expresionLogicaSimple
     | booleanos
     | BOOL
     ;
@@ -249,9 +249,6 @@ operacionAritmetica
 redondea//aproxima un decimal n hasta al entero mas positivo
     :'redondea' tokenNumerico
     ;
-diferencia//Diferencia (n1-n2-n3...)
-    :'diferencia' tokenNumerico (tokenNumerico)+
-    ;
 
 azar//Genera un numero decimal n hasta el numero proximo
     :'azar' tokenNumerico
@@ -275,6 +272,10 @@ division //division de dos numeros
 
 resto //El residuo de una division entera, dos numeros
     :'resto' tokenNumerico  tokenNumerico
+    ;
+
+diferencia//Diferencia (n1-n2-n3...)
+    :'diferencia' tokenNumerico (tokenNumerico)+
     ;
 
 suma //Suma de numeros-Revisar como tener n-numeros
@@ -311,40 +312,41 @@ primero //Devuelve el primer elemento de la lista
 borrarPantalla //Limpia completamente el liezo
     :'borrarPantalla'
     ;
-    
 
 tokenNumerico
-    : expresionNumerica
+    : PAR_OPEN tokenNumerico PAR_CLOSE
     | expresionIndeterminada
+    | expresionNumerica
+    | operacionAritmetica
+    | cuenta
+    | numero
     ;
 
 expresionNumerica
-   : expresionNumericaSimple
-   | PAR_OPEN expresionNumericaSimple PAR_CLOSE
-   | PAR_OPEN operacionAritmetica PAR_CLOSE
-   | operacionAritmetica
-   | cuenta
-   ;
-
-expresionNumericaSimple
    : expresionMultiplicativa (('+' | '-') expresionMultiplicativa)*
    ;
 
 expresionMultiplicativa
-   : expresionMultiplicativaSimple
-   | PAR_OPEN expresionMultiplicativaSimple PAR_CLOSE
-   ;
-
-expresionMultiplicativaSimple
    : expresionConSigno (('*' | '/') expresionConSigno)*
+   | PAR_OPEN expresionMultiplicativa PAR_CLOSE
    ;
 
 expresionConSigno
-   : (('+' | '-'))* numero
+   : (('+' | '-'))* expresionNumericaCompleja
+   | PAR_OPEN expresionConSigno PAR_CLOSE
    ;
 
+expresionNumericaCompleja
+    : PAR_OPEN expresionNumericaCompleja PAR_CLOSE
+    | PAR_OPEN expresionNumerica PAR_CLOSE
+    | operacionAritmetica
+    | expresionIndeterminada
+    | cuenta
+    | numero
+    ;
+
 numero
-   :NUMERO
+   : NUMERO
    ;
 
 comment
@@ -365,6 +367,7 @@ variable
 
 string
    : '"' STRING '"'
+   | '"' NOMBRE '"'
    ;
 
 BRACKET_OPEN: '[';
@@ -402,6 +405,7 @@ BOOL
 STRING
    : CARACTER+
    ;
+
 
 CARACTER
    : [a-zA-Z0-9&@_]

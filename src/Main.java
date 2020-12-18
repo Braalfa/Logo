@@ -5,17 +5,23 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-// create a CharStream that reads from standard input
-        ANTLRInputStream input = new ANTLRInputStream("mayorque? 4 3");
-// create a lexer that feeds off of input CharStream
+        // create a CharStream that reads from standard input
+        String texto= "diferencia 1 1-1-1";
+        ANTLRInputStream input = new ANTLRInputStream(texto);
+        // create a lexer that feeds off of input CharStream
         logoLexer lexer = new logoLexer(input);
-// create a buffer of tokens pulled from the lexer
+        // create a buffer of tokens pulled from the lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-// create a parser that feeds off the tokens buffer
+        // create a parser that feeds off the tokens buffer
         logoParser parser = new logoParser(tokens);
-        ParseTree tree = parser.expresionLogicaSimple(); // begin parsing at init rule
-        System.out.println(tree.toStringTree()); // print LISP-style tree
+        ParseTree tree = parser.tokenNumerico();
+        // begin parsing at init rule
+        System.out.println(tree.toStringTree());
+        // print LISP-style tree
         logoBaseVisitor extractor = new logoBaseVisitor();
-        System.out.println(extractor.visit(tree).get(0).getDatoAsInteger());
+        List<Dato> datos=extractor.visit(tree);
+        for(Dato dato: datos){
+            System.out.println(dato.toString());
+        }
     }
 }

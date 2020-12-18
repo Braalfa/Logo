@@ -567,18 +567,6 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDiferencia(logoParser.DiferenciaContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDiferencia(logoParser.DiferenciaContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAzar(logoParser.AzarContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -646,6 +634,18 @@ public class logoBaseListener implements logoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitResto(logoParser.RestoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDiferencia(logoParser.DiferenciaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDiferencia(logoParser.DiferenciaContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -771,18 +771,6 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpresionNumericaSimple(logoParser.ExpresionNumericaSimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpresionNumericaSimple(logoParser.ExpresionNumericaSimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExpresionMultiplicativa(logoParser.ExpresionMultiplicativaContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -795,18 +783,6 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpresionMultiplicativaSimple(logoParser.ExpresionMultiplicativaSimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpresionMultiplicativaSimple(logoParser.ExpresionMultiplicativaSimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExpresionConSigno(logoParser.ExpresionConSignoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -814,6 +790,18 @@ public class logoBaseListener implements logoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpresionConSigno(logoParser.ExpresionConSignoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
