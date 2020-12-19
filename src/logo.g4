@@ -43,10 +43,17 @@ instruccion
     |hasta
     |si
     |sisino
+    |imprimir
+    |llamar
+    ;
+
+llamar
+    : variable lista
+    | variable
     ;
 
 procedimiento//Declara un procedimiento
-    :'para' variable PAR_OPEN listaParametros PAR_CLOSE
+    :'para' variable listaParametros
       instrucciones
       'fin'
     ;
@@ -111,6 +118,10 @@ ponx //Orientacion de la tortuga
     ;
 pony //Orientacion de la tortuga
     :'pony' tokenNumerico
+    ;
+
+imprimir //Hacer print
+    : 'imprimir' token
     ;
 
 goma //Poen lapiz y para borrar

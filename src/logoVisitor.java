@@ -34,6 +34,12 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstruccion(logoParser.InstruccionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link logoParser#llamar}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLlamar(logoParser.LlamarContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link logoParser#procedimiento}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -129,6 +135,12 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPony(logoParser.PonyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link logoParser#imprimir}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImprimir(logoParser.ImprimirContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#goma}.
 	 * @param ctx the parse tree

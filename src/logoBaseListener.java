@@ -63,6 +63,18 @@ public class logoBaseListener implements logoListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLlamar(logoParser.LlamarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLlamar(logoParser.LlamarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterProcedimiento(logoParser.ProcedimientoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -250,6 +262,18 @@ public class logoBaseListener implements logoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPony(logoParser.PonyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImprimir(logoParser.ImprimirContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImprimir(logoParser.ImprimirContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
