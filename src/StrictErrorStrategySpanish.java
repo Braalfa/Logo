@@ -2,7 +2,7 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.IntervalSet;
 import org.antlr.v4.runtime.misc.Pair;
 
-public class DefaultErrorStrategySpanish extends DefaultErrorStrategy {
+public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
 
 
     @Override
