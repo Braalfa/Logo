@@ -1,7 +1,7 @@
 grammar logo;
 
 programa
-    : comment codigo haz codigo
+    : comment codigo haz codigo EOF
     ;
 
 codigo
@@ -49,7 +49,6 @@ instruccion
 
 llamar
     : variable lista
-    | variable
     ;
 
 procedimiento//Declara un procedimiento
@@ -369,7 +368,7 @@ listaParametros
    ;
 
 lista
-    : BRACKET_OPEN (token)+ BRACKET_CLOSE
+    : BRACKET_OPEN (token)* BRACKET_CLOSE
     ;
 
 variable

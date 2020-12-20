@@ -11,7 +11,6 @@ import org.antlr.v4.runtime.misc.*;
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class logoLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
-
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -139,6 +138,14 @@ public class logoLexer extends Lexer {
 
 	@Override
 	public ATN getATN() { return _ATN; }
+
+	@Override
+	public void notifyListeners(LexerNoViableAltException e) {
+		String text = this._input.getText(Interval.of(this._tokenStartCharIndex, this._input.index()));
+		String msg = "error de reconocimiento de token en: '" + this.getErrorDisplay(text) + "'";
+		ANTLRErrorListener listener = this.getErrorListenerDispatch();
+		listener.syntaxError(this, (Object)null, this._tokenStartLine, this._tokenStartCharPositionInLine, msg, e);
+	}
 
 	public static final String _serializedATN =
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2S\u02e5\b\1\4\2\t"+
