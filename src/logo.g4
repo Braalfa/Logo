@@ -67,10 +67,10 @@ inic //altera el valor de la tokenNumerico
 
 token
     : PAR_OPEN token PAR_CLOSE
+    | expresionIndeterminada
     | string
     | expresionLogica
     | expresionNumerica
-    | expresionIndeterminada
     ;
 
 inc//incrementsa uno o una segunda tokenNumericos
@@ -325,11 +325,7 @@ borrarPantalla //Limpia completamente el liezo
 
 tokenNumerico
     : PAR_OPEN tokenNumerico PAR_CLOSE
-    | expresionIndeterminada
     | expresionNumerica
-    | operacionAritmetica
-    | cuenta
-    | numero
     ;
 
 expresionNumerica

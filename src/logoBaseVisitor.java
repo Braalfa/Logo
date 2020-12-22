@@ -201,14 +201,14 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitToken(logoParser.TokenContext ctx) throws SemanticException {
 		List<Dato> retval;
-		if(ctx.expresionNumerica()!=null){
+		if(ctx.expresionIndeterminada()!=null) {
+			retval = visitExpresionIndeterminada(ctx.expresionIndeterminada());
+		}else if(ctx.expresionNumerica()!=null){
 			retval=visitExpresionNumerica(ctx.expresionNumerica());
 		}else if(ctx.expresionLogica()!=null){
 			retval=visitExpresionLogica(ctx.expresionLogica());
 		}else if(ctx.string()!=null){
 			retval=visitString(ctx.string());
-		}else if(ctx.expresionIndeterminada()!=null){
-			retval=visitExpresionIndeterminada(ctx.expresionIndeterminada());
 		}else{
 			retval= visitToken(ctx.token());
 		}
@@ -234,6 +234,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 				incVar = currentVar + incremento;
 			}
 			integerMap.replace(variable, incVar);
+		}else {
+			throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
+					"Int", currentDato.getTypeAsString());
 		}
 		return new ArrayList<>();
 	}
@@ -1016,15 +1019,6 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		List<Dato> retlist;
 		if(ctx.tokenNumerico()!=null) {
 			retlist = visitTokenNumerico(ctx.tokenNumerico());
-		}else if(ctx.expresionIndeterminada()!=null){
-			Dato indeterminado = visitExpresionIndeterminada(ctx.expresionIndeterminada()).get(0);
-			retlist=new ArrayList<>();
-			if (indeterminado.getTipo() == Dato.TYPE_INT) {
-				retlist.add(indeterminado);
-			}else{
-				throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
-						"Int", indeterminado.getTypeAsString());
-			}
 		}else{
 			retlist=visitChildren(ctx);
 		}

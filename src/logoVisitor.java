@@ -38,61 +38,61 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLlamar(logoParser.LlamarContext ctx) ;
+	T visitLlamar(logoParser.LlamarContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#procedimiento}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProcedimiento(logoParser.ProcedimientoContext ctx) ;
+	T visitProcedimiento(logoParser.ProcedimientoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#haz}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHaz(logoParser.HazContext ctx) ;
+	T visitHaz(logoParser.HazContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#inic}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInic(logoParser.InicContext ctx)  ;
+	T visitInic(logoParser.InicContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#token}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitToken(logoParser.TokenContext ctx)  ;
+	T visitToken(logoParser.TokenContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#inc}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInc(logoParser.IncContext ctx)  ;
+	T visitInc(logoParser.IncContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#avanza}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAvanza(logoParser.AvanzaContext ctx)  ;
+	T visitAvanza(logoParser.AvanzaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#retrocede}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRetrocede(logoParser.RetrocedeContext ctx)  ;
+	T visitRetrocede(logoParser.RetrocedeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#girarderecha}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGirarderecha(logoParser.GirarderechaContext ctx)  ;
+	T visitGirarderecha(logoParser.GirarderechaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#girarizquierda}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGirarizquierda(logoParser.GirarizquierdaContext ctx)  ;
+	T visitGirarizquierda(logoParser.GirarizquierdaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#ocultartortuga}.
 	 * @param ctx the parse tree
@@ -110,13 +110,13 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPonpos(logoParser.PonposContext ctx)  ;
+	T visitPonpos(logoParser.PonposContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#ponrumbo}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPonrumbo(logoParser.PonrumboContext ctx)  ;
+	T visitPonrumbo(logoParser.PonrumboContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#rumbo}.
 	 * @param ctx the parse tree
@@ -128,19 +128,19 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPonx(logoParser.PonxContext ctx)  ;
+	T visitPonx(logoParser.PonxContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#pony}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPony(logoParser.PonyContext ctx)  ;
+	T visitPony(logoParser.PonyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#imprimir}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitImprimir(logoParser.ImprimirContext ctx)  ;
+	T visitImprimir(logoParser.ImprimirContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#goma}.
 	 * @param ctx the parse tree
@@ -176,7 +176,7 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEspera(logoParser.EsperaContext ctx)  ;
+	T visitEspera(logoParser.EsperaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#ejecuta}.
 	 * @param ctx the parse tree
@@ -188,43 +188,43 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRepite(logoParser.RepiteContext ctx)  ;
+	T visitRepite(logoParser.RepiteContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#si}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSi(logoParser.SiContext ctx)  ;
+	T visitSi(logoParser.SiContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#sisino}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSisino(logoParser.SisinoContext ctx)  ;
+	T visitSisino(logoParser.SisinoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#hasHasta}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHasHasta(logoParser.HasHastaContext ctx)  ;
+	T visitHasHasta(logoParser.HasHastaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#hasta}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHasta(logoParser.HastaContext ctx)  ;
+	T visitHasta(logoParser.HastaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#hazMientras}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHazMientras(logoParser.HazMientrasContext ctx)  ;
+	T visitHazMientras(logoParser.HazMientrasContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#mientras}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMientras(logoParser.MientrasContext ctx)  ;
+	T visitMientras(logoParser.MientrasContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#booleanos}.
 	 * @param ctx the parse tree
@@ -236,37 +236,37 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIguales(logoParser.IgualesContext ctx)  ;
+	T visitIguales(logoParser.IgualesContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#yLogico}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitYLogico(logoParser.YLogicoContext ctx)  ;
+	T visitYLogico(logoParser.YLogicoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#oLogico}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOLogico(logoParser.OLogicoContext ctx)  ;
+	T visitOLogico(logoParser.OLogicoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#tokenLogico}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTokenLogico(logoParser.TokenLogicoContext ctx)  ;
+	T visitTokenLogico(logoParser.TokenLogicoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#expresionLogica}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpresionLogica(logoParser.ExpresionLogicaContext ctx)  ;
+	T visitExpresionLogica(logoParser.ExpresionLogicaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#expresionLogicaSimple}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpresionLogicaSimple(logoParser.ExpresionLogicaSimpleContext ctx)  ;
+	T visitExpresionLogicaSimple(logoParser.ExpresionLogicaSimpleContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#operadorCondicional}.
 	 * @param ctx the parse tree
@@ -278,13 +278,13 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMayorque(logoParser.MayorqueContext ctx)  ;
+	T visitMayorque(logoParser.MayorqueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#menorque}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMenorque(logoParser.MenorqueContext ctx)  ;
+	T visitMenorque(logoParser.MenorqueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#operacionAritmetica}.
 	 * @param ctx the parse tree
@@ -296,55 +296,55 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRedondea(logoParser.RedondeaContext ctx)  ;
+	T visitRedondea(logoParser.RedondeaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#azar}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAzar(logoParser.AzarContext ctx)  ;
+	T visitAzar(logoParser.AzarContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#menos}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMenos(logoParser.MenosContext ctx)  ;
+	T visitMenos(logoParser.MenosContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#producto}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProducto(logoParser.ProductoContext ctx)  ;
+	T visitProducto(logoParser.ProductoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#potencia}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPotencia(logoParser.PotenciaContext ctx)  ;
+	T visitPotencia(logoParser.PotenciaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#division}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDivision(logoParser.DivisionContext ctx)  ;
+	T visitDivision(logoParser.DivisionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#resto}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitResto(logoParser.RestoContext ctx) ;
+	T visitResto(logoParser.RestoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#diferencia}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDiferencia(logoParser.DiferenciaContext ctx)  ;
+	T visitDiferencia(logoParser.DiferenciaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#suma}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSuma(logoParser.SumaContext ctx) ;
+	T visitSuma(logoParser.SumaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#expresionIndeterminada}.
 	 * @param ctx the parse tree
@@ -356,7 +356,7 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitElegir(logoParser.ElegirContext ctx)  ;
+	T visitElegir(logoParser.ElegirContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#cuenta}.
 	 * @param ctx the parse tree
@@ -368,19 +368,19 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUltimo(logoParser.UltimoContext ctx) ;
+	T visitUltimo(logoParser.UltimoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#elemento}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitElemento(logoParser.ElementoContext ctx)  ;
+	T visitElemento(logoParser.ElementoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#primero}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrimero(logoParser.PrimeroContext ctx)  ;
+	T visitPrimero(logoParser.PrimeroContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#borrarPantalla}.
 	 * @param ctx the parse tree
@@ -392,7 +392,7 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTokenNumerico(logoParser.TokenNumericoContext ctx)  ;
+	T visitTokenNumerico(logoParser.TokenNumericoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#expresionNumerica}.
 	 * @param ctx the parse tree
@@ -416,7 +416,7 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx)  ;
+	T visitExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#numero}.
 	 * @param ctx the parse tree
@@ -446,7 +446,7 @@ public interface logoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVariable(logoParser.VariableContext ctx) ;
+	T visitVariable(logoParser.VariableContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link logoParser#string}.
 	 * @param ctx the parse tree

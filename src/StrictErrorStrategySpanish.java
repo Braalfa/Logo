@@ -128,7 +128,7 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
     @Override
     public void recover(Parser recognizer, RecognitionException e) {
         this.reportError(recognizer,e);
-        //throw new RuntimeException(e);
+        throw new RuntimeException(e);
     }
     /** Make sure we don't attempt to recover inline; if the parser
      * successfully recovers, it won't throw an exception.
