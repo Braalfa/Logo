@@ -1,4 +1,5 @@
 // Generated from C:/Users/alfab/Desktop/Practica Para el Examen 2/Logo/src\logo.g4 by ANTLR 4.8
+import SemanticErrorManager.SemanticException;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -894,7 +895,7 @@ public class logoParser extends Parser {
 			if ( listener instanceof logoListener ) ((logoListener)listener).exitHaz(this);
 		}
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor){
 			if ( visitor instanceof logoVisitor ) return ((logoVisitor<? extends T>)visitor).visitHaz(this);
 			else return visitor.visitChildren(this);
 		}
