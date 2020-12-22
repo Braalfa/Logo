@@ -1,3 +1,4 @@
+import SemanticErrorManager.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
@@ -15,7 +16,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	private Map<String, String> stringStringMap = new HashMap<>();
 	private Map<String, Boolean> booleanMap = new HashMap<>();
 
-	private final Map<String, Funcion> funcionMap = new HashMap<>();
+	private final Map<String, ArrayList<Funcion>> funcionMap = new HashMap<>();
 
 	/**
 	 * {@inheritDoc}
@@ -63,37 +64,54 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitLlamar(logoParser.LlamarContext ctx) {
-		Map<String, Integer> currentIntegerMap = integerMap;
-		Map<String, String> currentStringStringMap = stringStringMap;
-		Map<String, Boolean> currentBooleanMap = booleanMap;
-
-		integerMap = new HashMap<>();
-		stringStringMap = new HashMap<>();
-		booleanMap = new HashMap<>();
-
+	@Override public List<Dato> visitLlamar(logoParser.LlamarContext ctx) throws SemanticException {
 		String variable = ctx.variable().getText();
 		List<Dato> lista = visitLista(ctx.lista());
 
-		Funcion funcionActual = funcionMap.get(variable);
+		ArrayList<Funcion> funcionesActuales = funcionMap.get(variable);
 
-		for (int i=0; i < funcionActual.getParametros().size(); i++){
-			Dato dato =lista.get(i);
-			if (dato.getTipo() == Dato.TYPE_STRING) {
-				stringStringMap.put(funcionActual.getParametros().get(i), dato.getDatoAsString());
-			} else if (dato.getTipo() == Dato.TYPE_INT) {
-				integerMap.put(funcionActual.getParametros().get(i), dato.getDatoAsInteger());
-			} else {
-				booleanMap.put(funcionActual.getParametros().get(i), dato.getDatoAsBoolean());
+		Funcion funcionActual = null;
+		if (funcionesActuales != null){
+			for (Funcion funcion : funcionesActuales){
+				if (funcion.getParametros().size() == lista.size()){
+					funcionActual = funcion;
+					break;
+				}
 			}
+			if (funcionActual != null){
+
+				Map<String, Integer> currentIntegerMap = integerMap;
+				Map<String, String> currentStringStringMap = stringStringMap;
+				Map<String, Boolean> currentBooleanMap = booleanMap;
+
+				integerMap = new HashMap<>();
+				stringStringMap = new HashMap<>();
+				booleanMap = new HashMap<>();
+
+				for (int i=0; i < funcionActual.getParametros().size(); i++){
+					Dato dato =lista.get(i);
+					if (dato.getTipo() == Dato.TYPE_STRING) {
+						stringStringMap.put(funcionActual.getParametros().get(i), dato.getDatoAsString());
+					} else if (dato.getTipo() == Dato.TYPE_INT) {
+						integerMap.put(funcionActual.getParametros().get(i), dato.getDatoAsInteger());
+					} else {
+						booleanMap.put(funcionActual.getParametros().get(i), dato.getDatoAsBoolean());
+					}
+				}
+
+				visitInstrucciones(funcionActual.getInstrucciones());
+
+				integerMap = currentIntegerMap;
+				stringStringMap = currentStringStringMap;
+				booleanMap = currentBooleanMap;
+
+			} else {
+				throw new MethodNotFoundException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(), variable, lista.size());
+
+			}
+		}else {
+			throw new MethodNotFoundException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(), variable, lista.size());
 		}
-
-
-		visitInstrucciones(funcionActual.getInstrucciones());
-
-		integerMap = currentIntegerMap;
-		stringStringMap = currentStringStringMap;
-		booleanMap = currentBooleanMap;
 
 		return new ArrayList<>();
 	}
@@ -104,7 +122,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitProcedimiento(logoParser.ProcedimientoContext ctx) {
+	@Override public List<Dato> visitProcedimiento(logoParser.ProcedimientoContext ctx) throws SemanticException {
 		String variable = ctx.variable().getText();
 		List<Dato> parametros = visitListaParametros(ctx.listaParametros());
 		List<String> stringParam = new ArrayList<>();
@@ -113,25 +131,41 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 			stringParam.add(parametro.getDatoAsString());
 		}
 
-		funcionMap.put(variable, new Funcion(variable, stringParam, ctx.instrucciones()));
-
+		ArrayList<Funcion> listaFunciones = funcionMap.get(variable);
+		if (listaFunciones != null){
+			for (Funcion funcion : listaFunciones){
+				if (funcion.getParametros().size() == parametros.size()){
+					throw new DuplicatedMethodSignatureException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(), variable, parametros.size());
+				}
+			}
+			listaFunciones.add(new Funcion(variable, stringParam, ctx.instrucciones()));
+		}else {
+			ArrayList<Funcion> newArray = new ArrayList<>();
+			newArray.add(new Funcion(variable, stringParam, ctx.instrucciones()));
+			funcionMap.put(variable, newArray);
+		}
 		return new ArrayList<>();
+
 	}	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitHaz(logoParser.HazContext ctx) {
+	@Override public List<Dato> visitHaz(logoParser.HazContext ctx) throws SemanticException {
 		String variable = ctx.variable().getText();
 		Dato token = visitToken(ctx.token()).get(0);
 
-		if (token.getTipo() == Dato.TYPE_STRING){
-			stringStringMap.put(variable,token.getDatoAsString());
-		}else if(token.getTipo() == Dato.TYPE_INT){
-			integerMap.put(variable,token.getDatoAsInteger());
-		}else{
-			booleanMap.put(variable,token.getDatoAsBoolean());
+		if (stringStringMap.get(variable) == null && integerMap.get(variable) == null && booleanMap.get(variable) == null){
+			if (token.getTipo() == Dato.TYPE_STRING){
+				stringStringMap.put(variable,token.getDatoAsString());
+			}else if(token.getTipo() == Dato.TYPE_INT){
+				integerMap.put(variable,token.getDatoAsInteger());
+			}else{
+				booleanMap.put(variable,token.getDatoAsBoolean());
+			}
+		} else {
+			throw new DuplicatedVariableException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(), variable);
 		}
 
 		return new ArrayList<>();
@@ -142,16 +176,20 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitInic(logoParser.InicContext ctx) {
+	@Override public List<Dato> visitInic(logoParser.InicContext ctx) throws SemanticException {
 		String variable = ctx.variable().getText();
+		Dato currentDato = visitVariable(ctx.variable()).get(0);
 		Dato token = visitToken(ctx.token()).get(0);
 
-		if (token.getTipo() == Dato.TYPE_STRING){
+		if (token.getTipo() == Dato.TYPE_STRING && currentDato.getTipo() == Dato.TYPE_STRING){
 			stringStringMap.replace(variable,token.getDatoAsString());
-		}else if(token.getTipo() == Dato.TYPE_INT){
+		}else if(token.getTipo() == Dato.TYPE_INT && currentDato.getTipo() == Dato.TYPE_INT){
 			integerMap.replace(variable,token.getDatoAsInteger());
-		}else{
+		}else if(token.getTipo() == Dato.TYPE_BOOL && currentDato.getTipo() == Dato.TYPE_BOOL){
 			booleanMap.replace(variable,token.getDatoAsBoolean());
+		} else {
+			throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
+					currentDato.getTypeAsString(), token.getTypeAsString());
 		}
 		return new ArrayList<>();
 	}
@@ -161,7 +199,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitToken(logoParser.TokenContext ctx) {
+	@Override public List<Dato> visitToken(logoParser.TokenContext ctx) throws SemanticException {
 		List<Dato> retval;
 		if(ctx.expresionNumerica()!=null){
 			retval=visitExpresionNumerica(ctx.expresionNumerica());
@@ -182,18 +220,21 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitInc(logoParser.IncContext ctx) {
+	@Override public List<Dato> visitInc(logoParser.IncContext ctx) throws SemanticException {
 		String variable = ctx.variable().getText();
-		int currentVar = integerMap.get(variable);
+		Dato currentDato = visitVariable(ctx.variable()).get(0);
 
-		int incVar;
-		if(ctx.tokenNumerico()==null){
-			incVar = currentVar + 1;
-		} else{
-			int incremento = visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-			incVar = currentVar + incremento;
+		if (currentDato.getTipo() == Dato.TYPE_INT) {
+			int incVar;
+			int currentVar = currentDato.getDatoAsInteger();
+			if (ctx.tokenNumerico() == null) {
+				incVar = currentVar + 1;
+			} else {
+				int incremento = visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
+				incVar = currentVar + incremento;
+			}
+			integerMap.replace(variable, incVar);
 		}
-		integerMap.replace(variable,incVar);
 		return new ArrayList<>();
 	}
 	/**
@@ -202,7 +243,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitAvanza(logoParser.AvanzaContext ctx) {
+	@Override public List<Dato> visitAvanza(logoParser.AvanzaContext ctx) throws SemanticException {
 		int pasos= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		//Do stuff
 		return new ArrayList<>();
@@ -213,7 +254,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitRetrocede(logoParser.RetrocedeContext ctx) {
+	@Override public List<Dato> visitRetrocede(logoParser.RetrocedeContext ctx) throws SemanticException {
 		int pasos= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		//Do stuff
 		return new ArrayList<>();
@@ -224,7 +265,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitGirarderecha(logoParser.GirarderechaContext ctx) {
+	@Override public List<Dato> visitGirarderecha(logoParser.GirarderechaContext ctx) throws SemanticException {
 		int angulo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		//Do stuff
 		return new ArrayList<>();
@@ -235,7 +276,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitGirarizquierda(logoParser.GirarizquierdaContext ctx) {
+	@Override public List<Dato> visitGirarizquierda(logoParser.GirarizquierdaContext ctx) throws SemanticException {
 		int angulo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		//Do stuff
 		return new ArrayList<>();
@@ -264,7 +305,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPonpos(logoParser.PonposContext ctx) {
+	@Override public List<Dato> visitPonpos(logoParser.PonposContext ctx) throws SemanticException {
 		int posX = visitTokenNumerico(ctx.tokenNumerico(0)).get(0).getDatoAsInteger();
 		int posY = visitTokenNumerico(ctx.tokenNumerico(1)).get(0).getDatoAsInteger();
 		//Do stuff
@@ -276,7 +317,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPonrumbo(logoParser.PonrumboContext ctx) {
+	@Override public List<Dato> visitPonrumbo(logoParser.PonrumboContext ctx) throws SemanticException {
 		int rumbo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		//Do stuff
 		return new ArrayList<>();
@@ -287,14 +328,16 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitRumbo(logoParser.RumboContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitRumbo(logoParser.RumboContext ctx) {
+		return new ArrayList<>();
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPonx(logoParser.PonxContext ctx) {
+	@Override public List<Dato> visitPonx(logoParser.PonxContext ctx) throws SemanticException {
 		int orientacionX= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		//Do stuff
 		return new ArrayList<>();
@@ -305,14 +348,14 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPony(logoParser.PonyContext ctx) {
+	@Override public List<Dato> visitPony(logoParser.PonyContext ctx) throws SemanticException {
 		int orientacionY= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		//Do stuff
 		return new ArrayList<>();
 	}
 
 	@Override
-	public List<Dato> visitImprimir(logoParser.ImprimirContext ctx) {
+	public List<Dato> visitImprimir(logoParser.ImprimirContext ctx) throws SemanticException {
 		Dato textoDato=visitToken(ctx.token()).get(0);
 		System.out.println(textoDato.getDato());
 		return new ArrayList<>();
@@ -369,7 +412,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitEspera(logoParser.EsperaContext ctx) {
+	@Override public List<Dato> visitEspera(logoParser.EsperaContext ctx) throws SemanticException {
 		int espera= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		try {
 			Thread.sleep(espera*1000);
@@ -394,7 +437,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitRepite(logoParser.RepiteContext ctx) {
+	@Override public List<Dato> visitRepite(logoParser.RepiteContext ctx) throws SemanticException {
 		Integer rango=visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		for(int i = 0;i < rango; i++){
 			visitInstrucciones(ctx.instrucciones());
@@ -407,7 +450,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitSi(logoParser.SiContext ctx) {
+	@Override public List<Dato> visitSi(logoParser.SiContext ctx) throws SemanticException {
 		Boolean condicion=visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
 		if(condicion){
 			visitInstrucciones(ctx.instrucciones());
@@ -420,7 +463,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitSisino(logoParser.SisinoContext ctx) {
+	@Override public List<Dato> visitSisino(logoParser.SisinoContext ctx) throws SemanticException {
 		Boolean condicion=visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
 		if(condicion){
 			visitInstrucciones(ctx.instrucciones(0));
@@ -435,7 +478,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitHasHasta(logoParser.HasHastaContext ctx) {
+	@Override public List<Dato> visitHasHasta(logoParser.HasHastaContext ctx) throws SemanticException {
 		Boolean condicion;
 		do{
 			visitInstrucciones(ctx.instrucciones());
@@ -449,7 +492,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitHasta(logoParser.HastaContext ctx) {
+	@Override public List<Dato> visitHasta(logoParser.HastaContext ctx) throws SemanticException {
 		Boolean condicion = visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
 		while(!condicion){
 			visitInstrucciones(ctx.instrucciones());
@@ -464,7 +507,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitHazMientras(logoParser.HazMientrasContext ctx) {
+	@Override public List<Dato> visitHazMientras(logoParser.HazMientrasContext ctx) throws SemanticException {
 		Boolean condicion;
 		do{
 			visitInstrucciones(ctx.instrucciones());
@@ -479,7 +522,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitMientras(logoParser.MientrasContext ctx) {
+	@Override public List<Dato> visitMientras(logoParser.MientrasContext ctx) throws SemanticException {
 		Boolean condicion = visitTokenLogico(ctx.tokenLogico()).get(0).getDatoAsBoolean();
 		while(condicion){
 			visitInstrucciones(ctx.instrucciones());
@@ -503,7 +546,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitIguales(logoParser.IgualesContext ctx) {
+	@Override public List<Dato> visitIguales(logoParser.IgualesContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Integer n1 =visitTokenNumerico( ctx.tokenNumerico().get(0)).get(0).getDatoAsInteger();
@@ -523,7 +566,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitYLogico(logoParser.YLogicoContext ctx) {
+	@Override public List<Dato> visitYLogico(logoParser.YLogicoContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Boolean condicion1 =visitTokenLogico( ctx.tokenLogico().get(0)).get(0).getDatoAsBoolean();
@@ -543,7 +586,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitOLogico(logoParser.OLogicoContext ctx) {
+	@Override public List<Dato> visitOLogico(logoParser.OLogicoContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Boolean condicion1 =visitTokenLogico( ctx.tokenLogico().get(0)).get(0).getDatoAsBoolean();
@@ -563,7 +606,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitTokenLogico(logoParser.TokenLogicoContext ctx) {
+	@Override public List<Dato> visitTokenLogico(logoParser.TokenLogicoContext ctx) throws SemanticException {
 		List<Dato> retlist = new ArrayList<>();
 		if(ctx.expresionLogica()!=null){
 			retlist=visitExpresionLogica(ctx.expresionLogica());
@@ -572,7 +615,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 			if (indeterminado.getTipo() == Dato.TYPE_BOOL) {
 				retlist.add(indeterminado);
 			}else{
-				///Error, no va a devolver nada
+				throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
+						"Bool", indeterminado.getTypeAsString());
 			}
 		}else{
 			retlist=visitTokenLogico(ctx.tokenLogico());
@@ -585,7 +629,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitExpresionLogica(logoParser.ExpresionLogicaContext ctx) {
+	@Override public List<Dato> visitExpresionLogica(logoParser.ExpresionLogicaContext ctx) throws SemanticException {
 		List<Dato> returnVal = new ArrayList<>();
 		if(ctx.expresionLogicaSimple()!=null){
 			returnVal = visitExpresionLogicaSimple(ctx.expresionLogicaSimple());
@@ -607,7 +651,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitExpresionLogicaSimple(logoParser.ExpresionLogicaSimpleContext ctx) {
+	@Override public List<Dato> visitExpresionLogicaSimple(logoParser.ExpresionLogicaSimpleContext ctx) throws SemanticException {
 		List<Dato> retlist=new ArrayList<>();
 		if(ctx.mayorque()!=null){
 			retlist= visitMayorque(ctx.mayorque());
@@ -649,7 +693,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitMayorque(logoParser.MayorqueContext ctx) {
+	@Override public List<Dato> visitMayorque(logoParser.MayorqueContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Integer n1 =visitTokenNumerico( ctx.tokenNumerico(0)).get(0).getDatoAsInteger();
@@ -669,7 +713,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitMenorque(logoParser.MenorqueContext ctx) {
+	@Override public List<Dato> visitMenorque(logoParser.MenorqueContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Integer n1 =visitTokenNumerico( ctx.tokenNumerico().get(0)).get(0).getDatoAsInteger();
@@ -699,7 +743,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitRedondea(logoParser.RedondeaContext ctx) {
+	@Override public List<Dato> visitRedondea(logoParser.RedondeaContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Integer n1 =visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
@@ -714,7 +758,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitDiferencia(logoParser.DiferenciaContext ctx) {
+	@Override public List<Dato> visitDiferencia(logoParser.DiferenciaContext ctx) throws SemanticException {
 		List<Dato> dato = new ArrayList<>();
 		List<logoParser.TokenNumericoContext> listaContext = ctx.tokenNumerico();
 
@@ -738,7 +782,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitAzar(logoParser.AzarContext ctx) {
+	@Override public List<Dato> visitAzar(logoParser.AzarContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 		Integer rango =visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 
@@ -755,7 +799,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitMenos(logoParser.MenosContext ctx) {
+	@Override public List<Dato> visitMenos(logoParser.MenosContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Integer n1 =visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
@@ -771,7 +815,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitProducto(logoParser.ProductoContext ctx) {
+	@Override public List<Dato> visitProducto(logoParser.ProductoContext ctx) throws SemanticException {
 		List<Dato> dato = new ArrayList<>();
 		List<logoParser.TokenNumericoContext> listaContext = ctx.tokenNumerico();
 
@@ -796,7 +840,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPotencia(logoParser.PotenciaContext ctx) {
+	@Override public List<Dato> visitPotencia(logoParser.PotenciaContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Integer num =visitTokenNumerico(ctx.tokenNumerico(0)).get(0).getDatoAsInteger();
@@ -813,7 +857,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitDivision(logoParser.DivisionContext ctx) {
+	@Override public List<Dato> visitDivision(logoParser.DivisionContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Integer num =visitTokenNumerico(ctx.tokenNumerico(0)).get(0).getDatoAsInteger();
@@ -831,7 +875,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitResto(logoParser.RestoContext ctx) {
+	@Override public List<Dato> visitResto(logoParser.RestoContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
 		Integer num =visitTokenNumerico(ctx.tokenNumerico(0)).get(0).getDatoAsInteger();
@@ -849,7 +893,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitSuma(logoParser.SumaContext ctx) {
+	@Override public List<Dato> visitSuma(logoParser.SumaContext ctx) throws SemanticException {
 		List<Dato> dato = new ArrayList<>();
 		List<logoParser.TokenNumericoContext> listaContext = ctx.tokenNumerico();
 
@@ -882,11 +926,15 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitElegir(logoParser.ElegirContext ctx) {
+	@Override public List<Dato> visitElegir(logoParser.ElegirContext ctx) throws SemanticException{
 		List<Dato> returnVal = new ArrayList<>();
 		List<Dato> lista = visitLista(ctx.lista());
 		Random rand= new Random();
-		returnVal.add(lista.get(rand.nextInt(lista.size())));
+		if (lista.isEmpty()){
+			throw new IndexException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+		}else {
+			returnVal.add(lista.get(rand.nextInt(lista.size())));
+		}
 		return returnVal;
 	}
 	/**
@@ -907,10 +955,14 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitUltimo(logoParser.UltimoContext ctx) {
+	@Override public List<Dato> visitUltimo(logoParser.UltimoContext ctx) throws SemanticException {
 		List<Dato> returnVal = new ArrayList<>();
 		List<Dato> lista = visitLista(ctx.lista());
-		returnVal.add(lista.get(lista.size()-1));
+		if (lista.isEmpty()){
+			throw new IndexException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+		}else {
+			returnVal.add(lista.get(lista.size()-1));
+		}
 		return returnVal;
 	}
 	/**
@@ -919,12 +971,16 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitElemento(logoParser.ElementoContext ctx){
+	@Override public List<Dato> visitElemento(logoParser.ElementoContext ctx) throws SemanticException {
+		List<Dato> returnVal= new ArrayList<>();
 		List<Dato> lista = visitLista(ctx.lista());
 		Integer elemento = visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 
-		List<Dato> returnVal= new ArrayList<>();
-		returnVal.add(lista.get(elemento));
+		if (lista.size() <= elemento){
+			throw new IndexException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+		}else {
+			returnVal.add(lista.get(elemento));
+		}
 		return returnVal;
 	}
 	/**
@@ -933,9 +989,14 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPrimero(logoParser.PrimeroContext ctx) {
+	@Override public List<Dato> visitPrimero(logoParser.PrimeroContext ctx) throws SemanticException {
 		List<Dato> returnVal = new ArrayList<>();
-		returnVal.add(visitLista(ctx.lista()).get(0));
+		List<Dato> lista = visitLista(ctx.lista());
+		if (lista.isEmpty()){
+			throw new IndexException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+		}else {
+			returnVal.add(lista.get(0));
+		}
 		return returnVal;
 	}
 	/**
@@ -951,7 +1012,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitTokenNumerico(logoParser.TokenNumericoContext ctx) {
+	@Override public List<Dato> visitTokenNumerico(logoParser.TokenNumericoContext ctx) throws SemanticException {
 		List<Dato> retlist;
 		if(ctx.tokenNumerico()!=null) {
 			retlist = visitTokenNumerico(ctx.tokenNumerico());
@@ -961,7 +1022,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 			if (indeterminado.getTipo() == Dato.TYPE_INT) {
 				retlist.add(indeterminado);
 			}else{
-				///Error, no va a devolver nada
+				throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
+						"Int", indeterminado.getTypeAsString());
 			}
 		}else{
 			retlist=visitChildren(ctx);
@@ -1062,7 +1124,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	}
 
 	@Override
-	public List<Dato> visitExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx) {
+	public List<Dato> visitExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx) throws SemanticException {
 		List<Dato> retlist;
 		if(ctx.expresionNumericaCompleja()!=null) {
 			retlist = visitExpresionNumericaCompleja(ctx.expresionNumericaCompleja());
@@ -1072,7 +1134,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 			if (indeterminado.getTipo() == Dato.TYPE_INT) {
 				retlist.add(indeterminado);
 			}else{
-				///Error, no va a devolver nada
+				throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
+						"Int", indeterminado.getTypeAsString());
 			}
 		}else if(ctx.expresionNumerica()!=null){
 			retlist=visitExpresionNumerica(ctx.expresionNumerica());
@@ -1134,21 +1197,20 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitVariable(logoParser.VariableContext ctx) {
-		String key=ctx.NOMBRE().getSymbol().getText();
-		Integer integerValue=integerMap.get(key);
+	@Override public List<Dato> visitVariable(logoParser.VariableContext ctx) throws VariableNotFoundException {
+		String key = ctx.NOMBRE().getSymbol().getText();
+		Integer integerValue = integerMap.get(key);
 		String stringValue=stringStringMap.get(key);
 		Boolean boolValue=booleanMap.get(key);
-		Dato dato=null;
-		if(integerValue!=null){
+		Dato dato = null;
+		if(integerValue != null){
 			dato= new Dato(integerValue,Dato.TYPE_INT);
 		}else if(stringValue!=null){
 			dato= new Dato(stringValue,Dato.TYPE_STRING);
 		}else if(boolValue!=null){
 			dato= new Dato(boolValue,Dato.TYPE_BOOL);
 		}else{
-			///ERROR: la variable no existe
-			///Falta manejo de errores
+			throw new VariableNotFoundException(ctx.NOMBRE().getSymbol().getLine(), ctx.NOMBRE().getSymbol().getCharPositionInLine(), key);
 		}
 		List<Dato> retval= new ArrayList<>();
 		retval.add(dato);

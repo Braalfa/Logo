@@ -79,4 +79,20 @@ public class Dato {
                 ", tipo=" + tipoStr +
                 '}';
     }
+
+    public String getTypeAsString() {
+        String tipoStr = "";
+        switch (this.tipo) {
+            case Dato.TYPE_STRING:
+                tipoStr = "String";
+                break;
+            case Dato.TYPE_BOOL:
+                tipoStr = "Bool";
+                break;
+            case Dato.TYPE_INT:
+                tipoStr = "Int";
+                break;
+        }
+        return tipoStr;
+    }
 }
