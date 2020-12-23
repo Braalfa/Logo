@@ -8,7 +8,58 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         // create a CharStream that reads from standard input
-        String texto = "haz var 1 inc [var var] imprimir var";
+        String texto = "//comentario\n" +
+                "poncl \"Azules\""+
+                "\n" +
+                "para funcion1 [var]\n" +
+                "    imprimir 2\n" +
+                "fin\n" +
+                "\n" +
+                "para funcion1 [var2]\n" +
+                "    imprimir 1\n" +
+                "    funcion1 [2]\n" +
+                "fin\n" +
+                "\n" +
+                "funcion1 []\n" +
+                "\n" +
+                "haz var 1\n" +
+                "borrarPantalla\n" +
+                "imprimir primero [1]\n" +
+                "imprimir elemento 1 [1 2 3]\n" +
+                "imprimir ultimo [1 2 3 \"hola\"]\n" +
+                "imprimir ul [1 2 3 \"hola\"]\n" +
+                "imprimir cuenta [1 2 3]\n" +
+                "imprimir elegir [TRUE FALSE 1]\n" +
+                "haz var0 suma 1 1\n" +
+                "haz var3 var0\n"+
+                "haz var2 var3\n" +
+                "inic var2 = 4\n" +
+                "\n" +
+                "haz x 0\n" +
+                "mientras [x <1] [ imprimir x inic x = x+1]\n" +
+                "\n" +
+                "haz cond TRUE\n" +
+                "si (cond) [ imprimir \"f\"]\n" +
+                "sisino (mayorque? 5 4) [ imprimir \"c\"] [imprimir \"f\"]\n" +
+                "\n" +
+                "ejecuta [imprimir \"hola\"]\n" +
+                "espera 3\n" +
+                "centro\n" +
+                "poncl \"azul\"\n" +
+                "poncolorlapiz \"azul\"\n" +
+                "subelapiz sb bajalapiz bj goma pony 1 ponx 1 rumbo ponrumbo 1\n" +
+                "ponpos [1 1]\n" +
+                "ponposxy 1 1\n" +
+                "aparecetortuga at\n" +
+                "ocultartortuga ot\n" +
+                "girarIzquierda 1 gi 1\n" +
+                "girarDerecha 1 gd 1 \n" +
+                "retrocede 1 re 1\n" +
+                "avanza 1 av 1\n" +
+                "\n" +
+                "inc [var3 3]\n" +
+                "inc [var2] \n" +
+                "imprimir var2";
 
         ANTLRInputStream input = new ANTLRInputStream(texto);
         //Se crea el error listener
@@ -32,7 +83,7 @@ public class Main {
         parser.setErrorHandler(new StrictErrorStrategySpanish());
 
         try {
-            ParseTree tree = parser.codigo();
+            ParseTree tree = parser.programa();
             // begin parsing at init rule
 
             //Checking for syntax errors

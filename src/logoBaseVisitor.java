@@ -15,6 +15,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	private Map<String, Integer> integerMap = new HashMap<>();
 	private Map<String, String> stringStringMap = new HashMap<>();
 	private Map<String, Boolean> booleanMap = new HashMap<>();
+	private static ArrayList<String> colores = new ArrayList<>(
+			Arrays.asList("Blanco", "Azul", "Marron", "Cian", "Amarillo", "Rojo", "Verde"));
 
 	private final Map<String, ArrayList<Funcion>> funcionMap = new HashMap<>();
 
@@ -398,7 +400,15 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitPoncolor(logoParser.PoncolorContext ctx) {
-		return new ArrayList<>();
+		String color = visitString(ctx.string()).get(0).getDatoAsString();
+		for(String colorPermitido: colores){
+			if(colorPermitido.equals(color)){
+				//Si funciona
+				//Do stuff
+				return new ArrayList<>();
+			}
+		}
+		throw new InvalidColorException(ctx.start.getLine(),ctx.stop.getCharPositionInLine(), color);
 	}
 	/**
 	 * {@inheritDoc}
@@ -979,7 +989,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		List<Dato> lista = visitLista(ctx.lista());
 		Integer elemento = visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 
-		if (lista.size() <= elemento){
+		if (lista.size() <= elemento || elemento<0){
 			throw new IndexException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
 		}else {
 			returnVal.add(lista.get(elemento));
