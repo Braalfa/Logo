@@ -456,6 +456,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		}
 		else if (color.equalsIgnoreCase("verde")){
 			Window.tortuga.poncolor(Color.GREEN);
+		}else{
+			throw new InvalidColorException(ctx.start.getLine(),ctx.start.getCharPositionInLine(),color);
 		}
 		return new ArrayList<>();
 	}
@@ -466,7 +468,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitCentro(logoParser.CentroContext ctx) {
-		Window.getInstance().tortuga.centro();
+		Window.tortuga.centro();
 		return new ArrayList<>();
 	}	/**
 	 * {@inheritDoc}

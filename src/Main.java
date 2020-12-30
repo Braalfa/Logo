@@ -1,8 +1,6 @@
 import SemanticErrorManager.SemanticException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
-
-import java.io.SyncFailedException;
 import java.util.List;
 
 public class Main {
