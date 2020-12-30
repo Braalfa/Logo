@@ -37,7 +37,7 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
             input = "<entrada desconocida>";
         }
 
-        String msg = "no hay alternativas viables para la entrada ";
+        String msg = "no hay alternativas viables para la entrada : " + e.getOffendingToken().getText();
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
