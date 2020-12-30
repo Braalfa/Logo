@@ -40,6 +40,7 @@ import java.util.List;
 public class Window extends javax.swing.JFrame {
     public static  Window instance;
     public static Tortuga tortuga = new Tortuga();
+    
     private static FileNameExtensionFilter filtro;
     static String texto_carga ="";
     
@@ -83,13 +84,15 @@ public class Window extends javax.swing.JFrame {
     /**
      * Creates new form Window
      */
+    public NumeroLinea numero;
     private Window() {
         
         initComponents();
         errores.setText("Sin errores");
         tortuga.initTortuga();
         dibujo.setBackground(Color.WHITE);
-        
+        numero = new NumeroLinea(codigo);
+        jScrollPane1.setRowHeaderView(numero);
     }
     
     public static Window getInstance(){
@@ -103,22 +106,6 @@ public class Window extends javax.swing.JFrame {
         return Window.dibujo.getGraphics();
     }
     
-
-    public void tortuga(){
-        //tortuga.ponpos(300, 90);
-        tortuga.avanzar((Graphics2D) dibujo.getGraphics(), 50);
-        //tortuga.pon_rumbo(30);
-        //tortuga.retroceder((Graphics2D) dibujo.getGraphics(), 50);
-        //tortuga.centro();
-        
-       //tortuga.ponpos(300, 100);
-       //tortuga.avanzar_an((Graphics2D) dibujo.getGraphics(), 50);
-        //tortuga.pon_rumbo(90);
-        //tortuga.avanzar_an((Graphics2D) dibujo.getGraphics(), 50);
-        //tortuga.retroceder((Graphics2D) dibujo.getGraphics(), 50);
-        //tortuga.girar_derecha(90);
-        //tortuga.retroceder((Graphics2D) dibujo.getGraphics(), 50);
-    }
     
     
     public void mouseDraw(){
@@ -133,8 +120,7 @@ public class Window extends javax.swing.JFrame {
         dibujo.removeMouseMotionListener(adapter);
         
     }
-
-    
+   
     
     /**
      * 
@@ -185,6 +171,7 @@ public class Window extends javax.swing.JFrame {
 
         codigo.setColumns(20);
         codigo.setRows(5);
+        codigo.setTabSize(3);
         jScrollPane1.setViewportView(codigo);
 
         errores.setEditable(false);
@@ -288,7 +275,7 @@ public class Window extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(guardar)
@@ -303,7 +290,8 @@ public class Window extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -317,7 +305,6 @@ public class Window extends javax.swing.JFrame {
     }//GEN-LAST:event_imprimirActionPerformed
 
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
-
         String texto = codigo.getText();
 
         ANTLRInputStream input = new ANTLRInputStream(texto);
@@ -357,12 +344,9 @@ public class Window extends javax.swing.JFrame {
                 errores.setText(e.getMessage());
             }
         }
-
-
     }//GEN-LAST:event_compilarActionPerformed
 
     private void ejecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarActionPerformed
-        // create a CharStream that reads from standard input
         String texto = codigo.getText();
         ANTLRInputStream input = new ANTLRInputStream(texto);
 
@@ -412,8 +396,8 @@ public class Window extends javax.swing.JFrame {
                 errores.setText(e.getMessage());
             }
         }
-
-    }
+        
+    }//GEN-LAST:event_ejecutarActionPerformed
     /**
      * 
      * @param evt 
