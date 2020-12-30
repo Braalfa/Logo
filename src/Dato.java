@@ -58,26 +58,19 @@ public class Dato {
 
     @Override
     public String toString() {
-        String tipoStr="";
         String datoStr="";
         switch (this.tipo){
             case Dato.TYPE_STRING:
-                tipoStr="String";
                 datoStr=this.getDatoAsString();
                 break;
             case Dato.TYPE_BOOL:
-                tipoStr="Bool";
                 datoStr=this.getDatoAsBoolean().toString();
                 break;
             case Dato.TYPE_INT:
-                tipoStr="Int";
                 datoStr=this.getDatoAsInteger().toString();
                 break;
         }
-        return "Dato{" +
-                "dato=" + datoStr +
-                ", tipo=" + tipoStr +
-                '}';
+        return  datoStr;
     }
 
     public String getTypeAsString() {
@@ -95,4 +88,5 @@ public class Dato {
         }
         return tipoStr;
     }
+
 }

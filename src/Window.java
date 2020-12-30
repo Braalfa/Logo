@@ -22,9 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import SemanticErrorManager.SemanticException;
@@ -195,7 +193,7 @@ public class Window extends javax.swing.JFrame {
         jScrollPane2.setViewportView(errores);
 
         label1.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
-        label1.setText("Errores:");
+        label1.setText("Consola:");
 
         label2.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         label2.setText("Panel de Dibujo:");
@@ -382,17 +380,18 @@ public class Window extends javax.swing.JFrame {
         parser.addErrorListener(errorListener); // add ours
         parser.setErrorHandler(new StrictErrorStrategySpanish());
 
+        errores.setText("");
         try {
             ParseTree tree = parser.programa();
 
             if(!errorListener.isErrorDetected()){
-                errores.setText("Sin errores");
                 logoBaseVisitor extractor = new logoBaseVisitor();
                 try {
                     List<Dato> datos = extractor.visit(tree);
                     for(Dato dato: datos){
                         System.out.println(dato.toString());
                     }
+                    errores.setText(errores.getText()+"\nSin errores");
                 }catch (SemanticException e){
                     System.out.println(e.getMessage());
                     errores.setText(e.getMessage());
@@ -498,10 +497,14 @@ public class Window extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Window().setVisible(true);
+                getInstance().setVisible(true);
                 
             }
         });
+    }
+
+    public JTextPane getErrores() {
+        return errores;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

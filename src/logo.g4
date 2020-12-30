@@ -374,6 +374,8 @@ variable
 string
    : '"' STRING '"'
    | '"' NOMBRE '"'
+   | '"' NUMERO '"'
+   | '"'        '"'
    ;
 
 BRACKET_OPEN: '[';

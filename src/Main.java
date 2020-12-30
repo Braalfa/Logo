@@ -82,6 +82,7 @@ public class Main {
 
         try {
             ParseTree tree = parser.programa();
+
             // begin parsing at init rule
 
             //Checking for syntax errors

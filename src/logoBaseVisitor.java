@@ -386,6 +386,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	public List<Dato> visitImprimir(logoParser.ImprimirContext ctx) {
 		Dato textoDato=visitToken(ctx.token()).get(0);
 		System.out.println(textoDato.getDato());
+		Window.getInstance().getErrores().setText(textoDato.toString());
 		return new ArrayList<>();
 	}
 
@@ -810,7 +811,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitRedondea(logoParser.RedondeaContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
-		Integer n1 =visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
+		float n1 =visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		Integer result = Math.round(n1);
 
 		returnVal.add(new Dato(result,Dato.TYPE_INT));
@@ -924,11 +925,11 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitDivision(logoParser.DivisionContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
 
-		Integer num =visitTokenNumerico(ctx.tokenNumerico(0)).get(0).getDatoAsInteger();
-		Integer denom =visitTokenNumerico(ctx.tokenNumerico(1)).get(0).getDatoAsInteger();
+		float num = (float) visitTokenNumerico(ctx.tokenNumerico(0)).get(0).getDatoAsInteger();
+		float denom = (float) visitTokenNumerico(ctx.tokenNumerico(1)).get(0).getDatoAsInteger();
 
-		if(!denom.equals(0)){
-			Integer result = num/denom;
+		if(denom!=0){
+			Integer result = Math.round(num/denom);
 			returnVal.add(new Dato(result,Dato.TYPE_INT));
 		}
 		return returnVal;
@@ -1126,7 +1127,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 			retval= visitExpresionMultiplicativa(ctx.expresionMultiplicativa());
 		}else{
 			List<Dato> datos = visitChildren(ctx);
-			int result = datos.get(0).getDatoAsInteger();
+			float result = datos.get(0).getDatoAsInteger();
 			String operador = null;
 			for (int i = 1; i < datos.size(); i++) {
 				Dato dato = datos.get(i);
@@ -1144,7 +1145,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 					operador = dato.getDatoAsString();
 				}
 			}
-			Dato retvalDato = new Dato(result, Dato.TYPE_INT);
+			Dato retvalDato = new Dato(Math.round(result), Dato.TYPE_INT);
 			retval= retvalDato.toSingleArraylist();
 		}
 		return retval;
@@ -1282,8 +1283,12 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitString(logoParser.StringContext ctx) {
 		if(ctx.STRING()!=null){
 			return visitTerminal(ctx.STRING());
-		}else{
+		}else if(ctx.NOMBRE()!=null){
 			return visitTerminal(ctx.NOMBRE());
+		}else if(ctx.NUMERO()!=null){
+			return visitTerminal(ctx.NUMERO());
+		}else{
+			return (new Dato("",Dato.TYPE_STRING)).toSingleArraylist();
 		}
 	}
 
