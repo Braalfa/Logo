@@ -9,13 +9,13 @@ public class Main {
     public static void main(String[] args) {
         // create a CharStream that reads from standard input
         String texto = "//comentario\n" +
-                "poncl \"Azules\""+
+                "poncl \"Azul\""+
                 "\n" +
                 "para funcion1 [var]\n" +
                 "    imprimir 2\n" +
                 "fin\n" +
                 "\n" +
-                "para funcion1 [var2]\n" +
+                "para funcion1 []\n" +
                 "    imprimir 1\n" +
                 "    funcion1 [2]\n" +
                 "fin\n" +
@@ -32,21 +32,21 @@ public class Main {
                 "imprimir elegir [TRUE FALSE 1]\n" +
                 "haz var0 suma 1 1\n" +
                 "haz var3 var0\n"+
-                "haz var2 var3\n" +
-                "inic var2 = 4\n" +
+                "haz var2 TRUE\n" +
+                "inic var2 = primero [FALSE 2 3]\n" +
                 "\n" +
                 "haz x 0\n" +
                 "mientras [x <1] [ imprimir x inic x = x+1]\n" +
                 "\n" +
                 "haz cond TRUE\n" +
-                "si (cond) [ imprimir \"f\"]\n" +
+                "si (y cond mayorque? 5 4) [ imprimir \"f\"]\n" +
                 "sisino (mayorque? 5 4) [ imprimir \"c\"] [imprimir \"f\"]\n" +
                 "\n" +
                 "ejecuta [imprimir \"hola\"]\n" +
                 "espera 3\n" +
                 "centro\n" +
-                "poncl \"azul\"\n" +
-                "poncolorlapiz \"azul\"\n" +
+                "poncl \"Azul\"\n" +
+                "poncolorlapiz \"Azul\"\n" +
                 "subelapiz sb bajalapiz bj goma pony 1 ponx 1 rumbo ponrumbo 1\n" +
                 "ponpos [1 1]\n" +
                 "ponposxy 1 1\n" +
@@ -56,11 +56,11 @@ public class Main {
                 "girarDerecha 1 gd 1 \n" +
                 "retrocede 1 re 1\n" +
                 "avanza 1 av 1\n" +
-                "\n" +
+                "\nimprimir var2 imprimir var3 " +
                 "inc [var3 3]\n" +
-                "inc [var2] \n" +
                 "imprimir var2";
 
+        //texto="//sdas\nhaz var 1\nsisino (FALSE) [imprimir 1] [imprimir 2]";
         ANTLRInputStream input = new ANTLRInputStream(texto);
         //Se crea el error listener
         SyntaxErrorListener errorListener = new SyntaxErrorListener();

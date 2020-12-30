@@ -1,6 +1,9 @@
 import SemanticErrorManager.*;
 import org.antlr.v4.runtime.tree.*;
+
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * This class provides an empty implementation of {@link logoVisitor},
@@ -248,9 +251,21 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitAvanza(logoParser.AvanzaContext ctx) throws SemanticException {
+	public List<Dato> visitAvanza(logoParser.AvanzaContext ctx) {
 		int pasos= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		//Do stuff
+
+		try {
+
+			System.out.println("posx " + Window.tortuga.posx);
+			System.out.println("posy " + Window.tortuga.posy);
+			Window.tortuga.avanzar((Graphics2D) Window.getGraphics2d(), pasos);
+			System.out.println("posx des " + Window.tortuga.posx);
+			System.out.println("posy des " + Window.tortuga.posy);
+
+		}catch (SemanticException e){
+				throw new OutOfPanelException(ctx.start.getLine(), ctx.start.getCharPositionInLine());
+		}
+		//Window.getInstance().tortuga.avanzar((Graphics2D) Window.getInstance().getGraphics2d(), pasos);
 		return new ArrayList<>();
 	}
 	/**
@@ -259,9 +274,13 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitRetrocede(logoParser.RetrocedeContext ctx) throws SemanticException {
+	public List<Dato> visitRetrocede(logoParser.RetrocedeContext ctx) {
 		int pasos= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		//Do stuff
+		try {
+			Window.tortuga.retroceder((Graphics2D) Window.getGraphics2d(), pasos);
+		}catch (SemanticException e){
+			throw new OutOfPanelException(ctx.start.getLine(), ctx.start.getCharPositionInLine());
+		}
 		return new ArrayList<>();
 	}
 	/**
@@ -270,9 +289,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitGirarderecha(logoParser.GirarderechaContext ctx) throws SemanticException {
+	@Override public List<Dato> visitGirarderecha(logoParser.GirarderechaContext ctx) {
 		int angulo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		//Do stuff
+		Window.tortuga.girar_derecha(angulo);
 		return new ArrayList<>();
 	}
 	/**
@@ -281,9 +300,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitGirarizquierda(logoParser.GirarizquierdaContext ctx) throws SemanticException {
+	@Override public List<Dato> visitGirarizquierda(logoParser.GirarizquierdaContext ctx) {
 		int angulo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		//Do stuff
+		Window.getInstance().tortuga.girar_izquierda(angulo);
 		return new ArrayList<>();
 	}
 	/**
@@ -310,21 +329,25 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPonpos(logoParser.PonposContext ctx) throws SemanticException {
+	@Override public List<Dato> visitPonpos(logoParser.PonposContext ctx) {
 		int posX = visitTokenNumerico(ctx.tokenNumerico(0)).get(0).getDatoAsInteger();
 		int posY = visitTokenNumerico(ctx.tokenNumerico(1)).get(0).getDatoAsInteger();
-		//Do stuff
+		Window.tortuga.ponpos(posX, posY);
 		return new ArrayList<>();
 	}
+
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPonrumbo(logoParser.PonrumboContext ctx) throws SemanticException {
+	@Override public List<Dato> visitPonrumbo(logoParser.PonrumboContext ctx) {
 		int rumbo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		//Do stuff
+		System.out.println( "antes "+Window.tortuga.angulo);
+		Window.tortuga.pon_rumbo(rumbo);
+		System.out.println( "despues "+Window.tortuga.angulo);
 		return new ArrayList<>();
 	}
 	/**
@@ -333,18 +356,18 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitRumbo(logoParser.RumboContext ctx) {
-		return new ArrayList<>();
-	}
+	@Override public List<Dato> visitRumbo(logoParser.RumboContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPonx(logoParser.PonxContext ctx) throws SemanticException {
+	@Override public List<Dato> visitPonx(logoParser.PonxContext ctx) {
 		int orientacionX= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		//Do stuff
+		System.out.println( "antes  "+Window.tortuga.posx);
+		Window.tortuga.ponx(orientacionX);
+		System.out.println( "despues "+Window.tortuga.posx);
 		return new ArrayList<>();
 	}
 	/**
@@ -353,14 +376,14 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitPony(logoParser.PonyContext ctx) throws SemanticException {
+	@Override public List<Dato> visitPony(logoParser.PonyContext ctx) {
 		int orientacionY= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		//Do stuff
+		Window.tortuga.pony(orientacionY);
 		return new ArrayList<>();
 	}
 
 	@Override
-	public List<Dato> visitImprimir(logoParser.ImprimirContext ctx) throws SemanticException {
+	public List<Dato> visitImprimir(logoParser.ImprimirContext ctx) {
 		Dato textoDato=visitToken(ctx.token()).get(0);
 		System.out.println(textoDato.getDato());
 		return new ArrayList<>();
@@ -373,6 +396,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitGoma(logoParser.GomaContext ctx) {
+		Window.tortuga.goma();
 		return new ArrayList<>();
 	}
 	/**
@@ -382,6 +406,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitBajalapiz(logoParser.BajalapizContext ctx) {
+		//Window.getInstance().mouseDraw();
+		Window.dibujo.addMouseListener(Window.mouse);
+		Window.dibujo.addMouseMotionListener(Window.adapter);
 		return new ArrayList<>();
 	}
 	/**
@@ -391,6 +418,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitSubelapiz(logoParser.SubelapizContext ctx) {
+		Window.getInstance().mouseDraw_not();
 		return new ArrayList<>();
 	}
 	/**
@@ -401,14 +429,35 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitPoncolor(logoParser.PoncolorContext ctx) {
 		String color = visitString(ctx.string()).get(0).getDatoAsString();
-		for(String colorPermitido: colores){
-			if(colorPermitido.equals(color)){
-				//Si funciona
-				//Do stuff
-				return new ArrayList<>();
-			}
+
+		if (color.equalsIgnoreCase("blanco")){
+			Window.tortuga.poncolor(Color.white);
 		}
-		throw new InvalidColorException(ctx.start.getLine(),ctx.stop.getCharPositionInLine(), color);
+		else if (color.equalsIgnoreCase("azul")){
+			Window.tortuga.poncolor(Color.BLUE);
+		}
+		else if (color.equalsIgnoreCase("marron")){
+			Window.tortuga.poncolor(Color.getHSBColor(128, 64, 0));
+		}
+		else if (color.equalsIgnoreCase("cian")){
+			Window.tortuga.poncolor(Color.CYAN);
+		}
+		else if (color.equalsIgnoreCase("gris")){
+			Window.tortuga.poncolor(Color.GRAY);
+		}
+		else if (color.equalsIgnoreCase("amarillo")){
+			Window.tortuga.poncolor(Color.YELLOW);
+		}
+		else if (color.equalsIgnoreCase("negro")){
+			Window.tortuga.poncolor(Color.black);
+		}
+		else if (color.equalsIgnoreCase("rojo")){
+			Window.tortuga.poncolor(Color.RED);
+		}
+		else if (color.equalsIgnoreCase("verde")){
+			Window.tortuga.poncolor(Color.GREEN);
+		}
+		return new ArrayList<>();
 	}
 	/**
 	 * {@inheritDoc}
@@ -417,9 +466,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitCentro(logoParser.CentroContext ctx) {
+		Window.getInstance().tortuga.centro();
 		return new ArrayList<>();
-	}
-	/**
+	}	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
