@@ -3,12 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
@@ -20,12 +15,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import SemanticErrorManager.SemanticException;
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
@@ -202,7 +199,7 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
-        imprimir.setText("Imprimir Mapa");
+        imprimir.setText("Imprimir Árbol");
         imprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 imprimirActionPerformed(evt);
@@ -297,9 +294,67 @@ public class Window extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirActionPerformed
-        
-        //tortuga();  
+        //tortuga();
         //mouseDraw();
+        String texto = codigo.getText();
+        ANTLRInputStream input = new ANTLRInputStream(texto);
+
+        SyntaxErrorListener errorListener = new SyntaxErrorListener();
+
+        logoLexer lexer = new logoLexer(input);
+
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(errorListener);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        logoParser parser = new logoParser(tokens);
+
+        parser.removeErrorListeners();
+
+        parser.addErrorListener(errorListener); // add ours
+        parser.setErrorHandler(new StrictErrorStrategySpanish());
+
+        errores.setText("");
+        try {
+            ParseTree tree = parser.programa();
+
+            if(!errorListener.isErrorDetected()){
+                logoBaseVisitor extractor = new logoBaseVisitor();
+                try {
+                    List<Dato> datos = extractor.visit(tree);
+                    for(Dato dato: datos){
+                        System.out.println(dato.toString());
+                    }
+                    errores.setText(errores.getText()+"\nSin errores");
+                    JFrame frame = new JFrame("Antlr AST");
+                    TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()),tree);
+                    viewer.setScale(1.5); // Scale a little
+                    JScrollPane scrPane = new JScrollPane(viewer);
+                    frame.add(scrPane);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
+
+                }catch (SemanticException e){
+                    System.out.println(e.getMessage());
+                    errores.setText(e.getMessage());
+                }
+            }else {
+                //Error de Syntaxis
+                System.out.println(errorListener.getErrorMessage());
+                errores.setText(errorListener.getErrorMessage());
+            }
+
+        }catch (RuntimeException e){
+            if(errorListener.isErrorDetected()){
+                System.out.println(errorListener.getErrorMessage());
+                errores.setText(errorListener.getErrorMessage());
+            }else{
+                System.out.println(e.getMessage());
+                errores.setText(e.getMessage());
+            }
+        }
     }//GEN-LAST:event_imprimirActionPerformed
 
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
@@ -395,11 +450,11 @@ public class Window extends javax.swing.JFrame {
                 errores.setText(e.getMessage());
             }
         }
-        
+
     }//GEN-LAST:event_ejecutarActionPerformed
     /**
-     * 
-     * @param evt 
+     *
+     * @param evt
      * Esta funcion recibe un evento el cual de acciona cuando se presiona el boton de guardar
      * esta funcion se encarga de desplegar un cuadro donde se elige la ruta en donde se guardara un archivo que contenga el codigo digitado
      * en la ventana de codigo
@@ -421,13 +476,13 @@ public class Window extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null, "El codigo esta vacio");
         }
-        
+
         //FileWriter f = new FileWriter();
-        
+
     }//GEN-LAST:event_guardarActionPerformed
     /**
-     * 
-     * @param evt 
+     *
+     * @param evt
      * Su parametro es un evento, en cual se acciona presionando el boton de cargar de la interfase, esta funcion despliega un cuadro
      * de busqueda del archivo y al seleccionarlo trae su ruta de acceso la cual envia a la funcion de mostrar contenido.
      */
@@ -439,7 +494,7 @@ public class Window extends javax.swing.JFrame {
         j.showOpenDialog(j);
         if(j.getSelectedFile() != null){
         ruta = j.getSelectedFile().getAbsolutePath();
-        
+
         File f = new File(ruta);
             try {
                 muestraContenido(ruta);
@@ -448,7 +503,7 @@ public class Window extends javax.swing.JFrame {
             }
         }
         else{ruta = "";}
-        
+
     }//GEN-LAST:event_cargarActionPerformed
 
     /**
@@ -458,7 +513,7 @@ public class Window extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -482,7 +537,7 @@ public class Window extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 getInstance().setVisible(true);
-                
+
             }
         });
     }

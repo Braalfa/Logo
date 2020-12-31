@@ -386,7 +386,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	public List<Dato> visitImprimir(logoParser.ImprimirContext ctx) {
 		Dato textoDato=visitToken(ctx.token()).get(0);
 		System.out.println(textoDato.getDato());
-		Window.getInstance().getErrores().setText(textoDato.toString());
+		Window.getInstance().getErrores().setText(Window.getInstance().getErrores().getText() +"\n"
+				+ textoDato.toString());
 		return new ArrayList<>();
 	}
 

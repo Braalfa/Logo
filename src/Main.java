@@ -88,6 +88,7 @@ public class Main {
             //Checking for syntax errors
             if(!errorListener.isErrorDetected()){
                 //System.out.println(tree.toStringTree());
+
                 // print LISP-style tree
                 logoBaseVisitor extractor = new logoBaseVisitor();
                 try {
