@@ -322,10 +322,6 @@ public class Window extends javax.swing.JFrame {
             if(!errorListener.isErrorDetected()){
                 logoBaseVisitor extractor = new logoBaseVisitor();
                 try {
-                    List<Dato> datos = extractor.visit(tree);
-                    for(Dato dato: datos){
-                        System.out.println(dato.toString());
-                    }
                     errores.setText(errores.getText()+"\nSin errores");
                     JFrame frame = new JFrame("Antlr AST");
                     TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()),tree);
