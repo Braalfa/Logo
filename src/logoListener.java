@@ -746,4 +746,14 @@ public interface logoListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitString(logoParser.StringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link logoParser#stringAux}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringAux(logoParser.StringAuxContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link logoParser#stringAux}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringAux(logoParser.StringAuxContext ctx);
 }

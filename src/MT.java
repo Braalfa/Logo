@@ -68,7 +68,7 @@ public class MT  extends java.awt.Panel implements Runnable {
         try {
             Thread.sleep(15);
         } catch (InterruptedException ex) {
-            Logger.getLogger(Dibujo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(java.awt.Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
       paint1();

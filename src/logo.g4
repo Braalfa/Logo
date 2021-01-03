@@ -22,7 +22,6 @@ instruccion
     |girarizquierda
     |ocultartortuga
     |aparecertortuga
-    |rumbo
     |ponpos
     |ponrumbo
     |ponx
@@ -68,8 +67,8 @@ inic //altera el valor de la tokenNumerico
 token
     : PAR_OPEN token PAR_CLOSE
     | expresionIndeterminada
-    | string
     | expresionLogica
+    | string
     | expresionNumerica
     ;
 
@@ -348,6 +347,7 @@ expresionNumericaCompleja
     | operacionAritmetica
     | expresionIndeterminada
     | cuenta
+    | rumbo
     | numero
     ;
 
@@ -372,11 +372,15 @@ variable
    ;
 
 string
-   : '"' STRING '"'
-   | '"' NOMBRE '"'
-   | '"' NUMERO '"'
-   | '"'        '"'
+   : '"' stringAux + '"'
+   | '"'             '"'
    | expresionIndeterminada
+   ;
+
+stringAux
+   : STRING
+   | NOMBRE
+   | NUMERO
    ;
 
 BRACKET_OPEN: '[';

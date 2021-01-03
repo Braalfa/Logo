@@ -374,8 +374,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitRumbo(logoParser.RumboContext ctx) {
-
-		return visitChildren(ctx); }
+		return new Dato(Window.tortuga.rumbo(), Dato.TYPE_INT).toSingleArraylist();
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1305,12 +1305,14 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitString(logoParser.StringContext ctx) {
-		if(ctx.STRING()!=null){
-			return visitTerminal(ctx.STRING());
-		}else if(ctx.NOMBRE()!=null){
-			return visitTerminal(ctx.NOMBRE());
-		}else if(ctx.NUMERO()!=null){
-			return visitTerminal(ctx.NUMERO());
+		if(ctx.stringAux()!=null){
+			String string ="";
+			for(logoParser.StringAuxContext nodo: ctx.stringAux()){
+				string+=visitStringAux(nodo).get(0).getDatoAsString();
+				string+=" ";
+			}
+			return new Dato(string.substring(0,string.length()-1), Dato.TYPE_STRING).toSingleArraylist();
+
 		}else if (ctx.expresionIndeterminada()!=null){
 			Dato indeterminado = visitExpresionIndeterminada(ctx.expresionIndeterminada()).get(0);
 			if (indeterminado.getTipo() == Dato.TYPE_STRING) {
@@ -1322,6 +1324,11 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		}else{
 			return (new Dato("",Dato.TYPE_STRING)).toSingleArraylist();
 		}
+	}
+
+	@Override
+	public List<Dato> visitStringAux(logoParser.StringAuxContext ctx) {
+		return visitChildren(ctx);
 	}
 
 	@Override

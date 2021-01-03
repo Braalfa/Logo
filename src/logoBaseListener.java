@@ -898,6 +898,18 @@ public class logoBaseListener implements logoListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitString(logoParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStringAux(logoParser.StringAuxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStringAux(logoParser.StringAuxContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
