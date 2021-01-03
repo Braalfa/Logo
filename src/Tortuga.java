@@ -71,8 +71,8 @@ public class Tortuga {
     public void avanzar(Graphics2D g2d,int x){
         posx1=posx;
         posy1=posy;
-        posx= valorar_x((int) (Math.cos((angulo*Math.PI)/180) * x +posx1),posx1);
-        posy= valorar_y((int) (Math.sin((angulo*Math.PI)/180) * x +posy1),posy1);
+        posx= valorar_x((int) Math.round(Math.cos((angulo*Math.PI)/180) * x +posx1),posx1);
+        posy= valorar_y((int) Math.round(Math.sin((angulo*Math.PI)/180) * x +posy1),posy1);
         linea(g2d);
     }
     
@@ -98,8 +98,8 @@ public class Tortuga {
     public void retroceder(Graphics2D g2d,int x){
         posx1=posx;
         posy1=posy;
-        posx=  valorar_x(posx1 - (int) (Math.cos((angulo*Math.PI)/180) * x),posx1);
-        posy= valorar_y(posy1 - (int) (Math.sin((angulo*Math.PI)/180) * x ),posy1);
+        posx=  valorar_x(posx1 -(int) Math.round(Math.cos((angulo*Math.PI)/180) * x),posx1);
+        posy= valorar_y(posy1 - (int) Math.round(Math.sin((angulo*Math.PI)/180) * x ),posy1);
         linea(g2d);
     }
     
