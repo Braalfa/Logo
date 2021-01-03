@@ -376,6 +376,7 @@ string
    | '"' NOMBRE '"'
    | '"' NUMERO '"'
    | '"'        '"'
+   | expresionIndeterminada
    ;
 
 BRACKET_OPEN: '[';

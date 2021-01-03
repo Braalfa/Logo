@@ -1292,6 +1292,14 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 			return visitTerminal(ctx.NOMBRE());
 		}else if(ctx.NUMERO()!=null){
 			return visitTerminal(ctx.NUMERO());
+		}else if (ctx.expresionIndeterminada()!=null){
+			Dato indeterminado = visitExpresionIndeterminada(ctx.expresionIndeterminada()).get(0);
+			if (indeterminado.getTipo() == Dato.TYPE_STRING) {
+				return indeterminado.toSingleArraylist();
+			}else{
+				throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
+						"String", indeterminado.getTypeAsString());
+			}
 		}else{
 			return (new Dato("",Dato.TYPE_STRING)).toSingleArraylist();
 		}

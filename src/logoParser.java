@@ -4977,6 +4977,9 @@ public class logoParser extends Parser {
 		public TerminalNode STRING() { return getToken(logoParser.STRING, 0); }
 		public TerminalNode NOMBRE() { return getToken(logoParser.NOMBRE, 0); }
 		public TerminalNode NUMERO() { return getToken(logoParser.NUMERO, 0); }
+		public ExpresionIndeterminadaContext expresionIndeterminada() {
+			return getRuleContext(ExpresionIndeterminadaContext.class,0);
+		}
 		public StringContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -5000,7 +5003,7 @@ public class logoParser extends Parser {
 		StringContext _localctx = new StringContext(_ctx, getState());
 		enterRule(_localctx, 146, RULE_string);
 		try {
-			setState(595);
+			setState(596);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
 			case 1:
@@ -5045,6 +5048,13 @@ public class logoParser extends Parser {
 				match(T__69);
 				}
 				break;
+			case 5:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(595);
+				expresionIndeterminada();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -5059,7 +5069,7 @@ public class logoParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3S\u0258\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3S\u0259\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -5096,10 +5106,10 @@ public class logoParser extends Parser {
 		"\13D\3D\3D\3D\3D\3D\5D\u0223\nD\3E\3E\3E\3E\3E\3E\3E\3E\3E\3E\3E\3E\5"+
 		"E\u0231\nE\3F\3F\3G\3G\3H\3H\7H\u0239\nH\fH\16H\u023c\13H\3H\3H\3I\3I"+
 		"\7I\u0242\nI\fI\16I\u0245\13I\3I\3I\3J\3J\3K\3K\3K\3K\3K\3K\3K\3K\3K\3"+
-		"K\3K\5K\u0256\nK\3K\2\2L\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&("+
-		"*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\\^`bdfhjlnprtvxz|~\u0080\u0082\u0084"+
+		"K\3K\3K\5K\u0257\nK\3K\2\2L\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \""+
+		"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\\^`bdfhjlnprtvxz|~\u0080\u0082\u0084"+
 		"\u0086\u0088\u008a\u008c\u008e\u0090\u0092\u0094\2\t\3\2\21\22\3\2\23"+
-		"\24\3\2\35\36\3\2\37 \4\2\7\7\60\61\3\2DE\3\2FG\2\u0263\2\u0096\3\2\2"+
+		"\24\3\2\35\36\3\2\37 \4\2\7\7\60\61\3\2DE\3\2FG\2\u0265\2\u0096\3\2\2"+
 		"\2\4\u00a1\3\2\2\2\6\u00a5\3\2\2\2\b\u00c9\3\2\2\2\n\u00cb\3\2\2\2\f\u00ce"+
 		"\3\2\2\2\16\u00d4\3\2\2\2\20\u00d8\3\2\2\2\22\u00e5\3\2\2\2\24\u00f2\3"+
 		"\2\2\2\26\u00f8\3\2\2\2\30\u00fe\3\2\2\2\32\u0104\3\2\2\2\34\u010a\3\2"+
@@ -5116,7 +5126,7 @@ public class logoParser extends Parser {
 		"\u01f1\3\2\2\2|\u01f5\3\2\2\2~\u01f8\3\2\2\2\u0080\u01ff\3\2\2\2\u0082"+
 		"\u0201\3\2\2\2\u0084\u0215\3\2\2\2\u0086\u0222\3\2\2\2\u0088\u0230\3\2"+
 		"\2\2\u008a\u0232\3\2\2\2\u008c\u0234\3\2\2\2\u008e\u0236\3\2\2\2\u0090"+
-		"\u023f\3\2\2\2\u0092\u0248\3\2\2\2\u0094\u0255\3\2\2\2\u0096\u0097\5\u008c"+
+		"\u023f\3\2\2\2\u0092\u0248\3\2\2\2\u0094\u0256\3\2\2\2\u0096\u0097\5\u008c"+
 		"G\2\u0097\u0098\5\4\3\2\u0098\u0099\5\16\b\2\u0099\u009a\5\4\3\2\u009a"+
 		"\u009b\7\2\2\3\u009b\3\3\2\2\2\u009c\u00a0\5\u008cG\2\u009d\u00a0\5\6"+
 		"\4\2\u009e\u00a0\5\f\7\2\u009f\u009c\3\2\2\2\u009f\u009d\3\2\2\2\u009f"+
@@ -5261,14 +5271,14 @@ public class logoParser extends Parser {
 		"\2\u0240\u0242\5\22\n\2\u0241\u0240\3\2\2\2\u0242\u0245\3\2\2\2\u0243"+
 		"\u0241\3\2\2\2\u0243\u0244\3\2\2\2\u0244\u0246\3\2\2\2\u0245\u0243\3\2"+
 		"\2\2\u0246\u0247\7J\2\2\u0247\u0091\3\2\2\2\u0248\u0249\7N\2\2\u0249\u0093"+
-		"\3\2\2\2\u024a\u024b\7H\2\2\u024b\u024c\7Q\2\2\u024c\u0256\7H\2\2\u024d"+
-		"\u024e\7H\2\2\u024e\u024f\7N\2\2\u024f\u0256\7H\2\2\u0250\u0251\7H\2\2"+
-		"\u0251\u0252\7O\2\2\u0252\u0256\7H\2\2\u0253\u0254\7H\2\2\u0254\u0256"+
-		"\7H\2\2\u0255\u024a\3\2\2\2\u0255\u024d\3\2\2\2\u0255\u0250\3\2\2\2\u0255"+
-		"\u0253\3\2\2\2\u0256\u0095\3\2\2\2\"\u009f\u00a1\u00a7\u00c9\u00e5\u00f2"+
-		"\u00f8\u00fe\u0104\u010a\u011a\u0134\u017c\u0190\u0195\u019d\u01b2\u01c2"+
-		"\u01d5\u01dc\u01e3\u01ef\u01ff\u0206\u020e\u0215\u021a\u0222\u0230\u023a"+
-		"\u0243\u0255";
+		"\3\2\2\2\u024a\u024b\7H\2\2\u024b\u024c\7Q\2\2\u024c\u0257\7H\2\2\u024d"+
+		"\u024e\7H\2\2\u024e\u024f\7N\2\2\u024f\u0257\7H\2\2\u0250\u0251\7H\2\2"+
+		"\u0251\u0252\7O\2\2\u0252\u0257\7H\2\2\u0253\u0254\7H\2\2\u0254\u0257"+
+		"\7H\2\2\u0255\u0257\5r:\2\u0256\u024a\3\2\2\2\u0256\u024d\3\2\2\2\u0256"+
+		"\u0250\3\2\2\2\u0256\u0253\3\2\2\2\u0256\u0255\3\2\2\2\u0257\u0095\3\2"+
+		"\2\2\"\u009f\u00a1\u00a7\u00c9\u00e5\u00f2\u00f8\u00fe\u0104\u010a\u011a"+
+		"\u0134\u017c\u0190\u0195\u019d\u01b2\u01c2\u01d5\u01dc\u01e3\u01ef\u01ff"+
+		"\u0206\u020e\u0215\u021a\u0222\u0230\u023a\u0243\u0256";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
