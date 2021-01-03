@@ -1071,13 +1071,17 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitBorrarPantalla(logoParser.BorrarPantallaContext ctx) { return new ArrayList<>(); }
+	@Override public List<Dato> visitBorrarPantalla(logoParser.BorrarPantallaContext ctx) {
+		Window.tortuga.borrar_pantalla((Graphics2D) Window.getGraphics2d());
+		return new ArrayList<>(); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+
+
 	@Override public List<Dato> visitTokenNumerico(logoParser.TokenNumericoContext ctx) throws SemanticException {
 		List<Dato> retlist;
 		if(ctx.tokenNumerico()!=null) {
