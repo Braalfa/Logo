@@ -253,7 +253,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	public List<Dato> visitAvanza(logoParser.AvanzaContext ctx) {
 		int pasos= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-
+		Window.tortuga.OcCoor((Graphics2D) Window.getGraphics2d());
 		try {
 
 			System.out.println("posx " + Window.tortuga.posx);
@@ -266,6 +266,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 				throw new OutOfPanelException(ctx.start.getLine(), ctx.start.getCharPositionInLine());
 		}
 		//Window.getInstance().tortuga.avanzar((Graphics2D) Window.getInstance().getGraphics2d(), pasos);
+
 		return new ArrayList<>();
 	}
 	/**
@@ -276,6 +277,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	public List<Dato> visitRetrocede(logoParser.RetrocedeContext ctx) {
 		int pasos= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
+		Window.tortuga.OcCoor((Graphics2D) Window.getGraphics2d());
+
 		try {
 			Window.tortuga.retroceder((Graphics2D) Window.getGraphics2d(), pasos);
 		}catch (SemanticException e){
@@ -292,6 +295,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitGirarderecha(logoParser.GirarderechaContext ctx) {
 		int angulo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		Window.tortuga.girar_derecha(angulo);
+		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
+		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
+
 		return new ArrayList<>();
 	}
 	/**
@@ -303,6 +309,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	@Override public List<Dato> visitGirarizquierda(logoParser.GirarizquierdaContext ctx) {
 		int angulo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
 		Window.getInstance().tortuga.girar_izquierda(angulo);
+		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
+		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
+
 		return new ArrayList<>();
 	}
 	/**
@@ -312,7 +321,12 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitOcultartortuga(logoParser.OcultartortugaContext ctx) {
+		Window.tortuga.visTort = false;
+		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
+		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
+
 		return new ArrayList<>();
+
 	}
 	/**
 	 * {@inheritDoc}
@@ -321,6 +335,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitAparecertortuga(logoParser.AparecertortugaContext ctx) {
+		Window.tortuga.visTort = true;
 		return new ArrayList<>();
 	}
 	/**
@@ -348,6 +363,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		System.out.println( "antes "+Window.tortuga.angulo);
 		Window.tortuga.pon_rumbo(rumbo);
 		System.out.println( "despues "+Window.tortuga.angulo);
+		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
+		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
 		return new ArrayList<>();
 	}
 	/**
@@ -356,7 +373,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public List<Dato> visitRumbo(logoParser.RumboContext ctx) { return visitChildren(ctx); }
+	@Override public List<Dato> visitRumbo(logoParser.RumboContext ctx) {
+
+		return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

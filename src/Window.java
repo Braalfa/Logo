@@ -3,18 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.image.ImageObserver;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -88,6 +93,8 @@ public class Window extends javax.swing.JFrame {
         dibujo.setBackground(Color.WHITE);
         numero = new NumeroLinea(codigo);
         jScrollPane1.setRowHeaderView(numero);
+        MT mt= new MT(dibujo,tortuga);
+        mt.start();
     }
     
     public static Window getInstance(){
@@ -166,7 +173,7 @@ public class Window extends javax.swing.JFrame {
 
         codigo.setColumns(20);
         codigo.setRows(5);
-        codigo.setTabSize(3);
+        codigo.setTabSize(1);
         jScrollPane1.setViewportView(codigo);
 
         errores.setEditable(false);
@@ -177,7 +184,7 @@ public class Window extends javax.swing.JFrame {
         jScrollPane2.setViewportView(errores);
 
         label1.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
-        label1.setText("Consola:");
+        label1.setText("Errores:");
 
         label2.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         label2.setText("Panel de Dibujo:");
@@ -199,7 +206,7 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
-        imprimir.setText("Imprimir Árbol");
+        imprimir.setText("Imprimir Mapa");
         imprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 imprimirActionPerformed(evt);
@@ -224,11 +231,11 @@ public class Window extends javax.swing.JFrame {
         dibujo.setLayout(dibujoLayout);
         dibujoLayout.setHorizontalGroup(
             dibujoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 939, Short.MAX_VALUE)
         );
         dibujoLayout.setVerticalGroup(
             dibujoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 423, Short.MAX_VALUE)
+            .addGap(0, 494, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -236,24 +243,29 @@ public class Window extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(guardar)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(cargar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(imprimir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(compilar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ejecutar))
-                            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
-                            .addComponent(dibujo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(dibujo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(65, 65, 65)
+                                        .addComponent(cargar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(imprimir)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(compilar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ejecutar))
+                                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -279,7 +291,7 @@ public class Window extends javax.swing.JFrame {
                             .addComponent(compilar)
                             .addComponent(ejecutar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dibujo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -294,8 +306,6 @@ public class Window extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirActionPerformed
-        //tortuga();
-        //mouseDraw();
         String texto = codigo.getText();
         ANTLRInputStream input = new ANTLRInputStream(texto);
 
@@ -447,16 +457,17 @@ public class Window extends javax.swing.JFrame {
             }
         }
 
+        
     }//GEN-LAST:event_ejecutarActionPerformed
     /**
-     *
-     * @param evt
+     * 
+     * @param evt 
      * Esta funcion recibe un evento el cual de acciona cuando se presiona el boton de guardar
      * esta funcion se encarga de desplegar un cuadro donde se elige la ruta en donde se guardara un archivo que contenga el codigo digitado
      * en la ventana de codigo
      */
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        if(codigo.getText().length()>0){
+       if(codigo.getText().length()>0){
         JFileChooser j = new JFileChooser();
         int result = j.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION){
@@ -474,11 +485,11 @@ public class Window extends javax.swing.JFrame {
         }
 
         //FileWriter f = new FileWriter();
-
+        
     }//GEN-LAST:event_guardarActionPerformed
     /**
-     *
-     * @param evt
+     * 
+     * @param evt 
      * Su parametro es un evento, en cual se acciona presionando el boton de cargar de la interfase, esta funcion despliega un cuadro
      * de busqueda del archivo y al seleccionarlo trae su ruta de acceso la cual envia a la funcion de mostrar contenido.
      */
@@ -490,7 +501,7 @@ public class Window extends javax.swing.JFrame {
         j.showOpenDialog(j);
         if(j.getSelectedFile() != null){
         ruta = j.getSelectedFile().getAbsolutePath();
-
+        
         File f = new File(ruta);
             try {
                 muestraContenido(ruta);
@@ -499,7 +510,7 @@ public class Window extends javax.swing.JFrame {
             }
         }
         else{ruta = "";}
-
+        
     }//GEN-LAST:event_cargarActionPerformed
 
     /**
@@ -537,8 +548,7 @@ public class Window extends javax.swing.JFrame {
             }
         });
     }
-
-    public JTextPane getErrores() {
+     public JTextPane getErrores() {
         return errores;
     }
 

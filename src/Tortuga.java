@@ -24,6 +24,7 @@ public class Tortuga {
     Integer posy1 = 0;
     Integer angulo =0;
     Color color = Color.BLACK;
+    Boolean visTort = false;
     public Tortuga(){
         
     }
@@ -133,5 +134,15 @@ public class Tortuga {
     
     public void poncolor(Color color1){
         color = color1;
+    }
+    public void OcTortuga(Graphics2D g){
+        g.setColor(Color.WHITE);
+        g.fillRect(70, 0, 90, 84);
+
+    }
+    public void OcCoor(Graphics2D g){
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 60, 60);
+
     }
 }

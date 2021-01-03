@@ -3,23 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logotec;
 
 /**
  *
  * @author leona
  */
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.ImageObserver;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.paint.Color;
+
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 /**
  *
@@ -75,9 +70,11 @@ public class MT  extends java.awt.Panel implements Runnable {
         } catch (InterruptedException ex) {
             Logger.getLogger(Dibujo.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+      paint1();
         if(tortuga_aux.visTort){
             paint2();}
-        paint1();
+
     
   }
 
@@ -94,7 +91,7 @@ public class MT  extends java.awt.Panel implements Runnable {
   }
    public void paint2 () throws InterruptedException {
     
-    Panel.getGraphics().drawImage(image2, 80, 0, 35, 40, this);
+    Panel.getGraphics().drawImage(image2, 70, 0, 90, 75, this);
     ((Graphics2D) Panel.getGraphics()).rotate(30*Math.PI/180);
     //Panel.getGraphics().drawImage(image,80, 0, 35, 40, this);
     
