@@ -372,16 +372,11 @@ variable
    ;
 
 string
-   : '"' stringAux + '"'
-   | '"'             '"'
+   : STRING
    | expresionIndeterminada
    ;
 
-stringAux
-   : STRING
-   | NOMBRE
-   | NUMERO
-   ;
+STRING : '"' ( '\\"' | . )*? '"' ;
 
 BRACKET_OPEN: '[';
 BRACKET_CLOSE: ']';
@@ -415,13 +410,8 @@ BOOL
    | 'FALSE'
    ;
 
-STRING
-   : CARACTER+
-   ;
-
-
 CARACTER
-   : [a-zA-Z0-9&@_]
+   : [a-zA-Z0-9&@_-]
    ;
 
 WS

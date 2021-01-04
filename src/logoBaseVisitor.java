@@ -1305,15 +1305,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitString(logoParser.StringContext ctx) {
-		if(ctx.stringAux()!=null){
-			String string ="";
-			for(logoParser.StringAuxContext nodo: ctx.stringAux()){
-				string+=visitStringAux(nodo).get(0).getDatoAsString();
-				string+=" ";
-			}
-			return new Dato(string.substring(0,string.length()-1), Dato.TYPE_STRING).toSingleArraylist();
-
-		}else if (ctx.expresionIndeterminada()!=null){
+		if (ctx.expresionIndeterminada()!=null){
 			Dato indeterminado = visitExpresionIndeterminada(ctx.expresionIndeterminada()).get(0);
 			if (indeterminado.getTipo() == Dato.TYPE_STRING) {
 				return indeterminado.toSingleArraylist();
@@ -1322,14 +1314,12 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 						"String", indeterminado.getTypeAsString());
 			}
 		}else{
-			return (new Dato("",Dato.TYPE_STRING)).toSingleArraylist();
+			String string= visitTerminal(ctx.STRING()).get(0).getDatoAsString();
+			string=string.substring(1,string.length()-1);
+			return new Dato(string, Dato.TYPE_STRING).toSingleArraylist();
 		}
 	}
 
-	@Override
-	public List<Dato> visitStringAux(logoParser.StringAuxContext ctx) {
-		return visitChildren(ctx);
-	}
 
 	@Override
 	public List<Dato> visit(ParseTree parseTree) {
