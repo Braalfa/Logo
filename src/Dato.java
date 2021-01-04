@@ -77,13 +77,13 @@ public class Dato {
         String tipoStr = "";
         switch (this.tipo) {
             case Dato.TYPE_STRING:
-                tipoStr = "String";
+                tipoStr = "Hilera";
                 break;
             case Dato.TYPE_BOOL:
-                tipoStr = "Bool";
+                tipoStr = "Booleano";
                 break;
             case Dato.TYPE_INT:
-                tipoStr = "Int";
+                tipoStr = "Entero";
                 break;
         }
         return tipoStr;

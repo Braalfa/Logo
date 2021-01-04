@@ -43,7 +43,7 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
 
     @Override
     protected void reportInputMismatch(Parser recognizer, InputMismatchException e) {
-        String msg = "entrada incompatible " + this.getTokenErrorDisplay(e.getOffendingToken()) + " se esperaba " + e.getExpectedTokens().toString(recognizer.getVocabulary());
+        String msg = "entrada incompatible " + this.getTokenErrorDisplay(e.getOffendingToken());
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
@@ -61,7 +61,7 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
             Token t = recognizer.getCurrentToken();
             String tokenName = this.getTokenErrorDisplay(t);
             IntervalSet expecting = this.getExpectedTokens(recognizer);
-            String msg = "entrada desconocida " + tokenName + " se esperaba " + expecting.toString(recognizer.getVocabulary());
+            String msg = "entrada desconocida " + tokenName;
             recognizer.notifyErrorListeners(t, msg, (RecognitionException)null);
         }
     }

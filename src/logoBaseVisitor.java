@@ -241,7 +241,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 			integerMap.replace(variable, incVar);
 		}else {
 			throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
-					"Int", currentDato.getTypeAsString());
+					"Entero", currentDato.getTypeAsString());
 		}
 		return new ArrayList<>();
 	}
@@ -701,7 +701,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 				retlist.add(indeterminado);
 			}else{
 				throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
-						"Bool", indeterminado.getTypeAsString());
+						"Booleano", indeterminado.getTypeAsString());
 			}
 		}else{
 			retlist=visitTokenLogico(ctx.tokenLogico());
@@ -1215,7 +1215,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 				retlist.add(indeterminado);
 			}else{
 				throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
-						"Int", indeterminado.getTypeAsString());
+						"Entero", indeterminado.getTypeAsString());
 			}
 		}else if(ctx.expresionNumerica()!=null){
 			retlist=visitExpresionNumerica(ctx.expresionNumerica());
@@ -1311,7 +1311,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 				return indeterminado.toSingleArraylist();
 			}else{
 				throw new UnexpectedTypeException(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
-						"String", indeterminado.getTypeAsString());
+						"Hilera", indeterminado.getTypeAsString());
 			}
 		}else{
 			String string= visitTerminal(ctx.STRING()).get(0).getDatoAsString();
