@@ -100,7 +100,7 @@ public class MT  extends java.awt.Panel implements Runnable {
 
     // Rotation information
 
-    double rotationRequired = Math.toRadians (tortuga_aux.angulo);
+    double rotationRequired = Math.toRadians (tortuga_aux.angulo+90);
     
     AffineTransform tx = new AffineTransform();
     tx.translate(110, 40);
