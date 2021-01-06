@@ -256,11 +256,8 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		Window.tortuga.OcCoor((Graphics2D) Window.getGraphics2d());
 		try {
 
-			System.out.println("posx " + Window.tortuga.posx);
-			System.out.println("posy " + Window.tortuga.posy);
+
 			Window.tortuga.avanzar((Graphics2D) Window.getGraphics2d(), pasos);
-			System.out.println("posx des " + Window.tortuga.posx);
-			System.out.println("posy des " + Window.tortuga.posy);
 
 		}catch (SemanticException e){
 				throw new OutOfPanelException(ctx.start.getLine(), ctx.start.getCharPositionInLine());
@@ -359,10 +356,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitPonrumbo(logoParser.PonrumboContext ctx) {
 		int rumbo= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		//Do stuff
-		System.out.println( "antes "+Window.tortuga.angulo);
 		Window.tortuga.pon_rumbo(rumbo);
-		System.out.println( "despues "+Window.tortuga.angulo);
 		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
 		Window.tortuga.OcTortuga((Graphics2D) Window.dibujo.getGraphics());
 		return new ArrayList<>();
@@ -384,9 +378,7 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 */
 	@Override public List<Dato> visitPonx(logoParser.PonxContext ctx) {
 		int orientacionX= visitTokenNumerico(ctx.tokenNumerico()).get(0).getDatoAsInteger();
-		System.out.println( "antes  "+Window.tortuga.posx);
 		Window.tortuga.ponx(orientacionX);
-		System.out.println( "despues "+Window.tortuga.posx);
 		return new ArrayList<>();
 	}
 	/**
@@ -427,7 +419,6 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public List<Dato> visitBajalapiz(logoParser.BajalapizContext ctx) {
-		//Window.getInstance().mouseDraw();
 		Window.dibujo.addMouseListener(Window.mouse);
 		Window.dibujo.addMouseMotionListener(Window.adapter);
 		return new ArrayList<>();

@@ -3,13 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -36,18 +29,28 @@ import java.util.List;
 /**
  *
  * @author leona
+ * Clase window se encarga de contener el main del programa, de cargar toda la interfaz a utilizar en la aplicación, tambíen contiene las
+ * funciones que controlan el dibujar con el mouse
  */
 public class Window extends javax.swing.JFrame {
+
+    /**
+     * Se definen las variables a utilizar localmente y otras externamente
+     */
     public static  Window instance;
     public static Tortuga tortuga = new Tortuga();
     
     private static FileNameExtensionFilter filtro;
     static String texto_carga ="";
-    
+    public NumeroLinea numero;
     
     
     public  static Point inicioArrastre;
     public static Point finArrastre;
+
+    /**
+     * La variable mouse , contiene las funciones para poder realizar acciones con forme el accionar del mouse
+     */
     public static MouseListener mouse = new MouseListener() {
                @Override
                public void mouseReleased(MouseEvent e) {
@@ -82,9 +85,9 @@ public class Window extends javax.swing.JFrame {
             }
         };
     /**
-     * Creates new form Window
+     * Crea un nuevo Window
      */
-    public NumeroLinea numero;
+
     private Window() {
         
         initComponents();
@@ -96,6 +99,11 @@ public class Window extends javax.swing.JFrame {
         MT mt= new MT(dibujo,tortuga);
         mt.start();
     }
+
+    /**
+     * Funcion que otortga una instancia de la clase
+     * @return solo una instancia de la clase
+     */
     
     public static Window getInstance(){
         if (instance == null){
@@ -103,19 +111,29 @@ public class Window extends javax.swing.JFrame {
         }
         return instance;
     }
-    
+
+    /**
+     * La funcion getGraphics2d obtiene el atributo graphics del panel en el que vamos a dibujar
+     * @return Graphics del panel
+     */
     public static Graphics getGraphics2d(){
         return Window.dibujo.getGraphics();
     }
-    
-    
-    
+
+
+    /**
+     * La funcion mouseDraw agrega la variable mouse y adapter al panel en el cual se desea dibujar con el mouse
+     */
     public void mouseDraw(){
         
         dibujo.addMouseListener(mouse );
         dibujo.addMouseMotionListener(adapter);
         
     }
+
+    /**
+     * La funcion mouseDraw_not remueve los componentes mouse y adapter para dejar de dibujar en el panel
+     */
     public void mouseDraw_not(){
         
         dibujo.removeMouseListener(mouse);
@@ -153,6 +171,9 @@ public class Window extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    /**
+     * La funcion initComponents inicializa todos los elementos necesarios para crear la interfaz de usuario y ademas da las caracteristicas necesarias para su funcionamiento.
+     */
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -305,6 +326,12 @@ public class Window extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * @param evt
+     * Esta funcion recibe como parametro un evento el cual es ocacionado cuando se presiona el boton de imprimir e imprime un arbol de funcionamiento en una nueva pantalla
+     *
+     */
     private void imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirActionPerformed
         String texto = codigo.getText();
         ANTLRInputStream input = new ANTLRInputStream(texto);
@@ -363,6 +390,12 @@ public class Window extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_imprimirActionPerformed
 
+    /**
+     *
+     * @param evt
+     * Esta funcion recibe como parametro un evento el cual es ocacionado cuando se presiona el boton de compilar y envia el texto que contiene el cuadro de texto
+     * al logoLexer para que incie el proceso de analizar el codigo.
+     */
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
         String texto = codigo.getText();
 
@@ -405,6 +438,12 @@ public class Window extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_compilarActionPerformed
 
+    /**
+     *
+     * @param evt
+     * Esta funcion recibe como parametro un evento el cual es ocacionado cuando se presiona el boton de ejecutar y envia a compilar el codigo que contiene le cuadro
+     * de texto y luego si no hay errores de ningun tipo, ejecuta la lista de acciones a realizar
+     */
     private void ejecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarActionPerformed
         String texto = codigo.getText();
         ANTLRInputStream input = new ANTLRInputStream(texto);
@@ -491,7 +530,7 @@ public class Window extends javax.swing.JFrame {
      * 
      * @param evt 
      * Su parametro es un evento, en cual se acciona presionando el boton de cargar de la interfase, esta funcion despliega un cuadro
-     * de busqueda del archivo y al seleccionarlo trae su ruta de acceso la cual envia a la funcion de mostrar contenido.
+     * de búsqueda del archivo y al seleccionarlo trae su ruta de acceso la cual envia a la funcion de mostrar contenido.
      */
     private void cargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarActionPerformed
         String ruta;
@@ -515,6 +554,7 @@ public class Window extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
+     * En la funcion main se inicializa toda la apliacion verificando que no hay errores de la clase Window y luego llama a su instancia para volverla visible e inicia su ejecución
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -552,6 +592,10 @@ public class Window extends javax.swing.JFrame {
         return errores;
     }
 
+
+    /**
+     * En esta secci[on del codigo de definen los elementos que se utilizaran en la interfaz de usuario
+     */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cargar;
     private javax.swing.JTextArea codigo;
