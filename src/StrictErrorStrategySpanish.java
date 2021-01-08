@@ -2,9 +2,18 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.IntervalSet;
 import org.antlr.v4.runtime.misc.Pair;
 
+/**
+ * Clase que detecta los errores y los da en español, creado a partir de los archivos de antlr,
+ * solo se modifican los mensajes de error
+ */
 public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
 
 
+    /**
+     * Metodo para analizar y reportar errores
+     * @param recognizer Reconocedor
+     * @param e Error
+     */
     @Override
     public void reportError(Parser recognizer, RecognitionException e) {
         if (!this.inErrorRecoveryMode(recognizer)) {
@@ -23,6 +32,11 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
         }
     }
 
+    /**
+     * Método para reportar errores desconocidos
+     * @param recognizer Recognizer
+     * @param e Error a reportar
+     */
     @Override
     protected void reportNoViableAlternative(Parser recognizer, NoViableAltException e) {
         TokenStream tokens = recognizer.getInputStream();
@@ -41,12 +55,22 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
+    /**
+     * Método para reportar errores de ¨mismath¨
+     * @param recognizer Recognizer
+     * @param e Error a reportar
+     */
     @Override
     protected void reportInputMismatch(Parser recognizer, InputMismatchException e) {
         String msg = "entrada incompatible " + this.getTokenErrorDisplay(e.getOffendingToken());
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
+    /**
+     * Método para reportar errores de fallo del predicado
+     * @param recognizer Recognizer
+     * @param e Error a reportar
+     */
     @Override
     protected void reportFailedPredicate(Parser recognizer, FailedPredicateException e) {
         String ruleName = recognizer.getRuleNames()[recognizer.getContext().getRuleIndex()];
@@ -54,6 +78,10 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
+    /**
+     * Método para reportar errores de tokens inesperados
+     * @param recognizer Recognizer
+     */
     @Override
     protected void reportUnwantedToken(Parser recognizer) {
         if (!this.inErrorRecoveryMode(recognizer)) {
@@ -66,6 +94,10 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
         }
     }
 
+    /**
+     * Método para reportar errores de token faltante
+     * @param recognizer Recognizer
+     */
     @Override
     protected void reportMissingToken(Parser recognizer) {
         if (!this.inErrorRecoveryMode(recognizer)) {
@@ -77,6 +109,11 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
         }
     }
 
+    /**
+     * Método para obtener el símbolo faltante
+     * @param recognizer Recognizer
+     * @return Símbolo faltante
+     */
     @Override
     protected Token getMissingSymbol(Parser recognizer) {
         Token currentSymbol = recognizer.getCurrentToken();
@@ -102,6 +139,11 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
         return recognizer.getTokenFactory().create(new Pair(current.getTokenSource(), current.getTokenSource().getInputStream()), expectedTokenType, tokenText, 0, -1, -1, current.getLine(), current.getCharPositionInLine());
     }
 
+    /**
+     * Método para obtener el token faltante en forma de strinf
+     * @param t Token faltante
+     * @return Token faltante en forma de string
+     */
     @Override
     protected String getTokenErrorDisplay(Token t) {
         if (t == null) {
@@ -120,18 +162,22 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
         }
     }
 
-    /** Instead of recovering from exception e, rethrow it wrapped
-     * in a generic RuntimeException so it is not caught by the
-     * rule function catches. Exception e is the "cause" of the
-     * RuntimeException.
+    /**
+     * Metodo que evita recuperarse de los errores encontrados y más bien tira una exepción
+     * @param recognizer Recognizer
+     * @param e Error reportado
      */
     @Override
     public void recover(Parser recognizer, RecognitionException e) {
         this.reportError(recognizer,e);
         throw new RuntimeException(e);
     }
-    /** Make sure we don't attempt to recover inline; if the parser
-     * successfully recovers, it won't throw an exception.
+
+    /**
+     * Metodo que evita recuperarse de los errores encontrados y más bien tira una exepción
+     * @param recognizer Recognizer
+     * @return No retorna
+     * @throws RecognitionException Error de parseo
      */
     @Override
     public Token recoverInline(Parser recognizer)
@@ -141,7 +187,10 @@ public class StrictErrorStrategySpanish extends DefaultErrorStrategy {
     }
 
 
-    /** Make sure we don't attempt to recover from problems in subrules. */
+    /**
+     * Metodo en blanco para evitar recuperarse de errores
+     * @param recognizer Recognizer
+     */
     @Override
     public void sync(Parser recognizer){
     }
