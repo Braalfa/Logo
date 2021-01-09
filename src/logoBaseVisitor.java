@@ -729,10 +729,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return retlist;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una expresión lógica, el cual analiza su
+	 * hijo para obtener su expresión
+	 * @param ctx the parse tree
+	 * @return Retorna el valor dentro de un Dato dentro de un arraylist
 	 */
 	@Override public List<Dato> visitExpresionLogica(logoParser.ExpresionLogicaContext ctx)  {
 		List<Dato> returnVal = new ArrayList<>();
@@ -751,10 +751,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una expresión lógica simple, el cual analiza su
+	 * hijo para obtener su expresión simple
+	 * @param ctx the parse tree
+	 * @return Retorna el valor dentro de un Dato dentro de un arraylist
 	 */
 	@Override public List<Dato> visitExpresionLogicaSimple(logoParser.ExpresionLogicaSimpleContext ctx)  {
 		List<Dato> retlist=new ArrayList<>();
@@ -783,19 +783,19 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return retlist;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de un operador condicional, el cual analiza su
+	 * hijo para obtener su valor
+	 * @param ctx the parse tree
+	 * @return Retorna el llamado a analizar sus hijos
 	 */
 	@Override public List<Dato> visitOperadorCondicional(logoParser.OperadorCondicionalContext ctx) {
 		return visitChildren(ctx);
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para comparar si entre dos números dados por el AST,
+	 * el primero es mayor que el segundo
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor booleano de la comparación
 	 */
 	@Override public List<Dato> visitMayorque(logoParser.MayorqueContext ctx)  {
 		List<Dato> returnVal= new ArrayList<>();
@@ -812,10 +812,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para comparar si entre dos números dados por el AST,
+	 * el primero es menor que el segundo
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor booleano de la comparación
 	 */
 	@Override public List<Dato> visitMenorque(logoParser.MenorqueContext ctx)  {
 		List<Dato> returnVal= new ArrayList<>();
@@ -832,19 +832,19 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una operación aritmética, el cual analiza su
+	 * hijo para obtener su valor
+	 * @param ctx the parse tree
+	 * @return Retorna el llamado a analizar sus hijos
 	 */
 	@Override public List<Dato> visitOperacionAritmetica(logoParser.OperacionAritmeticaContext ctx) {
 		return visitChildren(ctx);
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para redondear un número dado por el AST
+	 * hacia el número entero más cercano
+	 * @param ctx the parse tree
+	 * @return Retorna el valor booleano de la comparación
 	 */
 	@Override public List<Dato> visitRedondea(logoParser.RedondeaContext ctx)  {
 		List<Dato> returnVal= new ArrayList<>();
@@ -856,10 +856,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para calcular la diferencia entre dos o más números dados por el AST
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor entero de la diferencia
 	 */
 	@Override public List<Dato> visitDiferencia(logoParser.DiferenciaContext ctx)  {
 		List<Dato> dato = new ArrayList<>();
@@ -880,10 +879,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para obtener un número al azar dado un rango
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor entero al azar
 	 */
 	@Override public List<Dato> visitAzar(logoParser.AzarContext ctx)  {
 		List<Dato> returnVal= new ArrayList<>();
@@ -897,10 +895,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para calcular el inverso aditivo de un número dado por el AST
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor entero
 	 */
 	@Override public List<Dato> visitMenos(logoParser.MenosContext ctx)  {
 		List<Dato> returnVal= new ArrayList<>();
@@ -913,10 +910,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para calcular el producto entre dos o más números dados por el AST
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor entero del producto
 	 */
 	@Override public List<Dato> visitProducto(logoParser.ProductoContext ctx)  {
 		List<Dato> dato = new ArrayList<>();
@@ -938,10 +934,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para calcular la potencia de un número dada la base y el exponente por el AST
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor entero de la potencia
 	 */
 	@Override public List<Dato> visitPotencia(logoParser.PotenciaContext ctx)  {
 		List<Dato> returnVal= new ArrayList<>();
@@ -955,10 +950,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para calcular la división de dos números dados por el AST
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor de la división
 	 */
 	@Override public List<Dato> visitDivision(logoParser.DivisionContext ctx)  {
 		List<Dato> returnVal= new ArrayList<>();
@@ -973,10 +967,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para calcular el residuo de la división de dos números dados por el AST
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor
 	 */
 	@Override public List<Dato> visitResto(logoParser.RestoContext ctx)  {
 		List<Dato> returnVal= new ArrayList<>();
@@ -991,10 +984,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para calcular la suma de dos o más números dados por el AST
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor de la suma
 	 */
 	@Override public List<Dato> visitSuma(logoParser.SumaContext ctx)  {
 		List<Dato> dato = new ArrayList<>();
@@ -1014,19 +1006,18 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return retval.toSingleArraylist();
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una expresión indeterminada, el cual analiza su
+	 * hijo para obtener su valor
+	 * @param ctx the parse tree
+	 * @return Retorna el llamado a analizar sus hijos
 	 */
 	@Override public List<Dato> visitExpresionIndeterminada(logoParser.ExpresionIndeterminadaContext ctx) {
 		return visitChildren(ctx);
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para obtener un elemento al azar de una lista
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor que se va a retornar
 	 */
 	@Override public List<Dato> visitElegir(logoParser.ElegirContext ctx) throws SemanticException{
 		List<Dato> returnVal = new ArrayList<>();
@@ -1040,10 +1031,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para contar los elementos de una lista
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor que se va a retornar
 	 */
 	@Override public List<Dato> visitCuenta(logoParser.CuentaContext ctx) {
 		List<Dato> returnVal = new ArrayList<>();
@@ -1052,10 +1042,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para obtener el último elemento de una lista
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor que se va a retornar
+	 * @throws SemanticException Excepción en caso de que se busque un elemento fuera del rango posible
 	 */
 	@Override public List<Dato> visitUltimo(logoParser.UltimoContext ctx) throws SemanticException {
 		List<Dato> returnVal = new ArrayList<>();
@@ -1068,10 +1058,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para obtener el n-ésimo elemento de una lista siendo n un número dado por el AST
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor que se va a retornar
+	 * @throws SemanticException Excepción en caso de que se busque un elemento fuera del rango posible
 	 */
 	@Override public List<Dato> visitElemento(logoParser.ElementoContext ctx) throws SemanticException {
 		List<Dato> returnVal= new ArrayList<>();
@@ -1086,10 +1076,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para obtener el primer elemento de una lista
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList con un Dato que contiene el valor que se va a retornar
+	 * @throws SemanticException Excepción en caso de que se busque un elemento fuera del rango posible
 	 */
 	@Override public List<Dato> visitPrimero(logoParser.PrimeroContext ctx) throws SemanticException {
 		List<Dato> returnVal = new ArrayList<>();
@@ -1102,22 +1092,20 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return returnVal;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para limpiar por completo la pantalla de dibujo
+	 * @param ctx the parse tree
+	 * @return Retorna un arrayList vacío
 	 */
 	@Override public List<Dato> visitBorrarPantalla(logoParser.BorrarPantallaContext ctx) {
 		Window.tortuga.borrar_pantalla((Graphics2D) Window.getGraphics2d());
 		return new ArrayList<>(); }
+
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de un token numérico, el cual analiza su
+	 * hijo para obtener el valor entero
+	 * @param ctx the parse tree
+	 * @return Retorna el valor entero dentro de un Dato dentro de un arraylist
 	 */
-
-
 	@Override public List<Dato> visitTokenNumerico(logoParser.TokenNumericoContext ctx)  {
 		List<Dato> retlist;
 		if(ctx.tokenNumerico()!=null) {
@@ -1128,10 +1116,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return retlist;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una expresión numérica, el cual analiza su
+	 * hijo para obtener el valor entero
+	 * @param ctx the parse tree
+	 * @return Retorna el valor entero dentro de un Dato dentro de un arraylist
 	 */
 	@Override public List<Dato> visitExpresionNumerica(logoParser.ExpresionNumericaContext ctx) {
 		List<Dato> datos = visitChildren(ctx);
@@ -1157,10 +1145,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return retval.toSingleArraylist();
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una expresión multiplicativa, el cual analiza su
+	 * hijo para obtener el valor entero
+	 * @param ctx the parse tree
+	 * @return Retorna el valor entero dentro de un Dato dentro de un arraylist
 	 */
 	@Override public List<Dato> visitExpresionMultiplicativa(logoParser.ExpresionMultiplicativaContext ctx) {
 		List<Dato> retval;
@@ -1192,10 +1180,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return retval;
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una expresión con signo, el cual analiza su
+	 * hijo para obtener el valor entero
+	 * @param ctx the parse tree
+	 * @return Retorna el valor entero dentro de un Dato dentro de un arraylist
 	 */
 	@Override public List<Dato> visitExpresionConSigno(logoParser.ExpresionConSignoContext ctx) {
 		List<Dato> retval;
@@ -1220,6 +1208,13 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return retval;
 	}
 
+	/**
+	 * Método para visitar la definición de una expresión numérica compleja, el cual analiza su
+	 * hijo para obtener el valor entero
+	 * @param ctx the parse tree
+	 * @return Retorna el valor entero dentro de un Dato dentro de un arraylist
+	 * @throws SemanticException Excepción en caso de que se el tipo recibido sea distinto al esperado
+	 */
 	@Override
 	public List<Dato> visitExpresionNumericaCompleja(logoParser.ExpresionNumericaComplejaContext ctx) throws SemanticException {
 		List<Dato> retlist;
@@ -1244,10 +1239,10 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar un número, el cual analiza su
+	 * hijo para obtener el valor entero a partir del String
+	 * @param ctx the parse tree
+	 * @return Retorna el valor entero dentro de un Dato dentro de un arraylist
 	 */
 	@Override public List<Dato> visitNumero(logoParser.NumeroContext ctx) {
 		String numeroInt = ctx.NUMERO().getSymbol().getText();
@@ -1255,17 +1250,16 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return numeroDato.toSingleArraylist();
 	}
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de un comentario
+	 * @param ctx the parse tree
+	 * @return Retorna un arraylist vacío
 	 */
 	@Override public List<Dato> visitComment(logoParser.CommentContext ctx) { return new ArrayList<>(); }
+
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una lista de parámetros, obtiene los nombres de las variables
+	 * @param ctx the parse tree
+	 * @return Retorna un arraylist con el nombre de los parámetros
 	 */
 	@Override public List<Dato> visitListaParametros(logoParser.ListaParametrosContext ctx) {
 		List<Dato> datos = new ArrayList<>();
@@ -1276,10 +1270,9 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una lista, el cual obtiene los elementos que contiene
+	 * @param ctx the parse tree
+	 * @return Retorna un arraylist con los elementos de la lista
 	 */
 	@Override public List<Dato> visitLista(logoParser.ListaContext ctx) {
 		List<Dato> datos = visitChildren(ctx);
@@ -1289,10 +1282,11 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de una variable, el cual analiza su
+	 * hijo para obtener el valor de la variable dentro de los mapas que las contienen
+	 * @param ctx the parse tree
+	 * @return Retorna un arraylist con el valor de la variable, si esta existe
+	 * @throws SemanticException Excepción en caso de que la variable no pueda ser encontrada
 	 */
 	@Override public List<Dato> visitVariable(logoParser.VariableContext ctx) throws VariableNotFoundException {
 		String key = ctx.NOMBRE().getSymbol().getText();
@@ -1314,12 +1308,12 @@ public class logoBaseVisitor  implements logoVisitor<List<Dato>> {
 		return retval;
 	}
 
-
 	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
+	 * Método para visitar la definición de un String, el cual analiza su
+	 * hijo para obtener el valor del string
+	 * @param ctx the parse tree
+	 * @return Retorna un arraylist con un Dato que contiene el valor del String
+	 * @throws SemanticException Excepción en caso de que se el tipo recibido sea distinto al esperado
 	 */
 	@Override public List<Dato> visitString(logoParser.StringContext ctx) throws SemanticException {
 		if (ctx.expresionIndeterminada()!=null){
