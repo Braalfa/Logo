@@ -8,9 +8,15 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 
+/**
+ * En esta clase se realizara la caracteristica de agregar una linea con un numero en cada linea del panel contenido
+ */
 public class NumeroLinea extends JPanel
         implements CaretListener, DocumentListener, PropertyChangeListener {
 
+    /**
+     * Se definen variables a utilzar en el codigo interno de la clase
+     */
     public final static float LEFT = 0.0f;
     public final static float CENTER = 0.5f;
     public final static float RIGHT = 1.0f;
@@ -34,12 +40,19 @@ public class NumeroLinea extends JPanel
 
     private HashMap<String, FontMetrics> fonts;
 
-    
+    /**
+     * Se define una clase constructor la cual contiene como parametro un JTextComponent
+     * @param component
+     */
     public NumeroLinea(JTextComponent component) {
         this(component, 3);
     }
 
-    
+    /**
+     * Se define una clase constructor la cual contiene como parametro un JTextComponent y un entero el cual contiene el funcionamiento total de la clase
+     * @param component
+     * @param minimumDisplayDigits
+     */
     public NumeroLinea(JTextComponent component, int minimumDisplayDigits) {
         this.component = component;
 
@@ -55,22 +68,34 @@ public class NumeroLinea extends JPanel
         component.addPropertyChangeListener("font", this);
     }
 
-    
+    /**
+     * La funcion getUpdateFont retorna la variable updateFont
+     * @return
+     */
     public boolean getUpdateFont() {
         return updateFont;
     }
 
-    
+    /**
+     * La funcion setUpdateFont cambia el valor de la variable updateFont de la clase por el valor del parametro de entrada
+     * @param updateFont
+     */
     public void setUpdateFont(boolean updateFont) {
         this.updateFont = updateFont;
     }
 
-    
+    /**
+     * La funcion getBorderGap retorna la variable borderGap
+     * @return
+     */
     public int getBorderGap() {
         return borderGap;
     }
 
-    
+    /**
+     * La funcion setBorderGap recibe como parametro un entero el cual cambia el valor de la variable borderGap de la clase y edita el objeto Border
+     * @param borderGap
+     */
     public void setBorderGap(int borderGap) {
         this.borderGap = borderGap;
         Border inner = new EmptyBorder(0, borderGap, 0, borderGap);
@@ -79,37 +104,62 @@ public class NumeroLinea extends JPanel
         setPreferredWidth();
     }
 
-   
+    /**
+     * La funcion getCurrentLineForeground retorna la variable currentLineForeground de tipo Color
+     * @return
+     */
     public Color getCurrentLineForeground() {
         return currentLineForeground == null ? getForeground() : currentLineForeground;
     }
 
-    
+    /**
+     * La funcion setCurrentLineForeground recibe como parametro currentLineForeground que es de tipo Color y cambia el valor de la variable
+     * currentLineForeground de la clase por el parametro ingresado
+     * @param currentLineForeground
+     */
     public void setCurrentLineForeground(Color currentLineForeground) {
         this.currentLineForeground = currentLineForeground;
     }
 
-    
+    /**
+     * La funcion getDigitAlignment retorna la variable digitAlignment
+     * @return
+     */
     public float getDigitAlignment() {
         return digitAlignment;
     }
+
+    /**
+     * La funcion setDigitAlignment recibe como parametro digitAlignment el cual cambia su valor a la variable local de la clase llamada
+     * digitAlignment
+     * @param digitAlignment
+     */
     public void setDigitAlignment(float digitAlignment) {
         this.digitAlignment
                 = digitAlignment > 1.0f ? 1.0f : digitAlignment < 0.0f ? -1.0f : digitAlignment;
     }
 
-   
+    /**
+     * La funcion getMinimumDisplayDigits retorna el valor de la variable minimumDisplayDigits
+     * @return
+     */
     public int getMinimumDisplayDigits() {
         return minimumDisplayDigits;
     }
 
-   
+    /**
+     * La funcion setMinimumDisplayDigits recibe como parametro un entero llamado minimumDisplayDigits el cual sustituye el valor de la variable
+     * local llamada minimumDisplayDigits
+     * @param minimumDisplayDigits
+     */
     public void setMinimumDisplayDigits(int minimumDisplayDigits) {
         this.minimumDisplayDigits = minimumDisplayDigits;
         setPreferredWidth();
     }
 
-    
+    /**
+     * La funcion setPreferredWidth le da un reajuste al tamaño de las lineas con corme de agregen o quiten lineas de texto
+     */
     private void setPreferredWidth() {
         Element root = component.getDocument().getDefaultRootElement();
         int lines = root.getElementCount();
@@ -129,6 +179,10 @@ public class NumeroLinea extends JPanel
         }
     }
 
+    /**
+     * La funcion paintComponent contiene como parametro Graphics el cual dibuja los componentes y actualiza sus posiciones y estados de los objetos
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -161,6 +215,12 @@ public class NumeroLinea extends JPanel
         }
     }
 
+    /**
+     * La funcion isCurrentLine recibe como parametro un entero el cual valora su estado dentro de root y dependiendo de esta decision
+     * retorna un true o false
+     * @param rowStartOffset
+     * @return
+     */
     private boolean isCurrentLine(int rowStartOffset) {
         int caretPosition = component.getCaretPosition();
         Element root = component.getDocument().getDefaultRootElement();
@@ -172,6 +232,13 @@ public class NumeroLinea extends JPanel
         }
     }
 
+
+    /**
+     *
+     * La funcion getTextLineNumber obtiene el valor de la columna ingresado como parametro
+     * @param rowStartOffset
+     * @return
+     */
     protected String getTextLineNumber(int rowStartOffset) {
         Element root = component.getDocument().getDefaultRootElement();
         int index = root.getElementIndex(rowStartOffset);
@@ -185,30 +252,34 @@ public class NumeroLinea extends JPanel
     }
 
     /*
-	 *  Determine the X offset to properly align the line number when drawn
+	 *   Determina el desplazamiento X para alinear correctamente el número de línea cuando se dibuja
      */
     private int getOffsetX(int availableWidth, int stringWidth) {
         return (int) ((availableWidth - stringWidth) * digitAlignment);
     }
 
-    /*
-	 *  Determine the Y offset for the current row
+    /**
+     * La funcion getOffsetY Determina el desplazamiento Y para la fila actual
+     * @param rowStartOffset
+     * @param fontMetrics
+     * @return
+     * @throws BadLocationException
      */
+
     private int getOffsetY(int rowStartOffset, FontMetrics fontMetrics)
             throws BadLocationException {
-        //  Get the bounding rectangle of the row
+
 
         Rectangle r = component.modelToView(rowStartOffset);
         int lineHeight = fontMetrics.getHeight();
         int y = r.y + r.height;
         int descent = 0;
 
-        //  The text needs to be positioned above the bottom of the bounding
-        //  rectangle based on the descent of the font(s) contained on the row.
-        if (r.height == lineHeight) // default font is being used
+
+        if (r.height == lineHeight)
         {
             descent = fontMetrics.getDescent();
-        } else // We need to check all the attributes for font changes
+        } else
         {
             if (fonts == null) {
                 fonts = new HashMap<String, FontMetrics>();
@@ -240,49 +311,56 @@ public class NumeroLinea extends JPanel
         return y - descent;
     }
 
-//
-//  Implement CaretListener interface
-//
+    /**
+     * Implementar la interfaz CaretListener
+     * @param e
+     */
     @Override
     public void caretUpdate(CaretEvent e) {
-        //  Get the line the caret is positioned on
 
         int caretPosition = component.getCaretPosition();
         Element root = component.getDocument().getDefaultRootElement();
         int currentLine = root.getElementIndex(caretPosition);
 
-        //  Need to repaint so the correct line number can be highlighted
         if (lastLine != currentLine) {
             repaint();
             lastLine = currentLine;
         }
     }
 
-//
-//  Implement DocumentListener interface
-//
+    /**
+     * Implementar la interfaz DocumentListener
+     * @param e
+     */
     @Override
     public void changedUpdate(DocumentEvent e) {
         documentChanged();
     }
 
+    /**
+     * Esta funcion  Implementar la interfaz DocumentListener
+     * @param e
+     */
     @Override
     public void insertUpdate(DocumentEvent e) {
         documentChanged();
     }
 
+    /**
+     * Esta funcion  Implementar la interfaz DocumentListener
+     * @param e
+     */
     @Override
     public void removeUpdate(DocumentEvent e) {
         documentChanged();
     }
 
-    /*
-	 *  A document change may affect the number of displayed lines of text.
-	 *  Therefore the lines numbers will also change.
+    /**
+     * Un cambio de documento puede afectar el número de líneas de texto mostradas.
+     * Por lo tanto, los números de las líneas también cambiarán.
      */
     private void documentChanged() {
-        //  View of the component has not been updated at the time
-        //  the DocumentEvent is fired
+
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -302,6 +380,10 @@ public class NumeroLinea extends JPanel
         });
     }
 
+    /**
+     * Cambia las propiedades de la interfaz
+     * @param evt
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof Font) {
