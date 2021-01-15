@@ -71,16 +71,16 @@ public class logoParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'para'", "'fin'", "'haz'", "'inic'", "'='", "'inc'", "'avanza'", 
-			"'av'", "'retrocede'", "'re'", "'girarDerecha'", "'gd'", "'girarIzquierda'", 
-			"'gi'", "'ocultartortuga'", "'ot'", "'aparecetortuga'", "'at'", "'ponpos'", 
-			"'ponposxy'", "'ponrumbo'", "'rumbo'", "'ponx'", "'pony'", "'imprimir'", 
-			"'goma'", "'bajalapiz'", "'bj'", "'subelapiz'", "'sb'", "'poncolorlapiz'", 
+			"'av'", "'retrocede'", "'re'", "'giraDerecha'", "'gd'", "'giraIzquierda'", 
+			"'gi'", "'ocultatortuga'", "'ot'", "'aparecetortuga'", "'at'", "'ponpos'", 
+			"'ponxy'", "'ponrumbo'", "'rumbo'", "'ponx'", "'pony'", "'imprimir'", 
+			"'goma'", "'bajalapiz'", "'bl'", "'subelapiz'", "'sb'", "'poncolorlapiz'", 
 			"'poncl'", "'centro'", "'espera'", "'ejecuta'", "'repite'", "'si'", "'sisino'", 
 			"'haz.hasta'", "'hasta'", "'haz.mientras'", "'mientras'", "'iguales?'", 
 			"'y'", "'o'", "'<'", "'>'", "'mayorque?'", "'menorque?'", "'redondea'", 
 			"'azar'", "'menos'", "'producto'", "'potencia'", "'division'", "'resto'", 
 			"'diferencia'", "'suma'", "'elegir'", "'cuenta'", "'ultimo'", "'ul'", 
-			"'elemento'", "'primero'", "'borrarPantalla'", "'+'", "'-'", "'*'", "'/'", 
+			"'elemento'", "'primero'", "'borraPantalla'", "'+'", "'-'", "'*'", "'/'", 
 			null, "'['", "']'", "'('", "')'"
 		};
 	}

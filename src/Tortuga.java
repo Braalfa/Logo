@@ -186,7 +186,6 @@ public class Tortuga {
     
     public void girar_izquierda(int x){
         this.angulo = angulo-x;
-        
     }
 
     /**

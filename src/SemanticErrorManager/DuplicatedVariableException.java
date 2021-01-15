@@ -4,7 +4,6 @@ package SemanticErrorManager;
  * DuplicatedVariableException: clase que genera una excepción en caso de que una variable no sea única
  */
 public class DuplicatedVariableException extends SemanticException{
-
     /**
      * Constructor para mostrar el mensaje
      * @param line: línea donde se presentó el error

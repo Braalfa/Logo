@@ -85,15 +85,15 @@ retrocede //Mueve el avatar n valores hacia atras
     |'re' tokenNumerico
     ;
 girarderecha //Gira hacia la derecha n angulos
-    :'girarDerecha' tokenNumerico
+    :'giraDerecha' tokenNumerico
     |'gd' tokenNumerico
     ;
 girarizquierda //Gira a la izquierda n angulos
-    :'girarIzquierda' tokenNumerico
+    :'giraIzquierda' tokenNumerico
     |'gi' tokenNumerico
     ;
 ocultartortuga //Oculta el avatar
-    :'ocultartortuga'
+    :'ocultatortuga'
     |'ot'
     ;
 aparecertortuga //Aparece el avatar en pantalla
@@ -102,7 +102,7 @@ aparecertortuga //Aparece el avatar en pantalla
     ;
 ponpos //Coloca a la tortuga en una posicion de cordenadas XY
     :'ponpos' BRACKET_OPEN tokenNumerico tokenNumerico BRACKET_CLOSE
-    |'ponposxy' tokenNumerico tokenNumerico
+    |'ponxy' tokenNumerico tokenNumerico
     ;
 
 ponrumbo //Coloca el avatar en dirrecion del angulo
@@ -128,7 +128,7 @@ goma //Poen lapiz y para borrar
 
 bajalapiz //El lapiz inicia a dibujar
     :'bajalapiz'
-    |'bj'
+    |'bl'
     ;
 subelapiz //El lapiz deja de dibujar cuando se mueve
     :'subelapiz'
@@ -319,7 +319,7 @@ primero //Devuelve el primer elemento de la lista
     ;
 
 borrarPantalla //Limpia completamente el liezo
-    :'borrarPantalla'
+    :'borraPantalla'
     ;
 
 tokenNumerico
