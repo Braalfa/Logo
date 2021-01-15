@@ -154,6 +154,7 @@ public class Window extends javax.swing.JFrame {
      */
     public void muestraContenido(String archivo) throws FileNotFoundException, IOException {
         String cadena;
+        texto_carga="";
         FileReader f = new FileReader(archivo);
         BufferedReader b = new BufferedReader(f);
         while((cadena = b.readLine())!=null) {
@@ -161,6 +162,7 @@ public class Window extends javax.swing.JFrame {
         }
         System.out.println(texto_carga);
         b.close();
+        f.close();
         codigo.setText(texto_carga);
     }
     
