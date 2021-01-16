@@ -1,16 +1,21 @@
 grammar logo;
 
+//Condiciones minimas par ala ejecucion del programa las cuales son un comentario y la
+//iniciasion de una una variable
 programa
     : comment codigo haz codigo EOF
     ;
+
 
 codigo
     : (comment | instrucciones | procedimiento)*
     ;
 
+
 instrucciones
     : instruccion+
     ;
+
 
 instruccion
     :haz
@@ -50,20 +55,28 @@ llamar
     : variable lista
     ;
 
+//Gramatica en la cual se incialisan los procedimientos
+//de forma tal que se inicialisa con  para el nombre de la funcion y las variables
+//y luego las intruciones que se a aplican hasta llegar al fin de la funcion
 procedimiento//Declara un procedimiento
     :'para' variable listaParametros
       instrucciones
       'fin'
     ;
 
-haz//Inicialisa tokenNumericos
+//Gramatica aplicada para incialisar una variable
+haz
     :'haz' variable token
     ;
 
-inic //altera el valor de la tokenNumerico
+//La gramatica aplicada a la funcion inic espera la palabra inic la variable y
+//estring = y un token por el cual cambiara su valor
+inic
     :'inic' variable '=' token
     ;
 
+//Resguarda los diferentes tipos de expresiones tanto strings
+//como expresiones matematicas o expresiones logicas
 token
     : PAR_OPEN token PAR_CLOSE
     | expresionIndeterminada
@@ -72,122 +85,179 @@ token
     | expresionNumerica
     ;
 
-inc//incrementsa uno o una segunda tokenNumericos
+
+
+//La funcion inic sin ningun token numerico aumenta uno a uno cada valor
+//si tiene 2 o mas tokens numericos aumentan esos valores
+inc
     :'inc' BRACKET_OPEN variable tokenNumerico BRACKET_CLOSE
     |'inc' BRACKET_OPEN variable BRACKET_CLOSE
     ;
-avanza //Mueve el avatar n valores hacia adelante
+
+//La intruccion avanza recibe un token numerico luego de esto dibuja una linea recta de de token
+//numerico introducido
+avanza
     :'avanza' tokenNumerico
     |'av' tokenNumerico
     ;
-retrocede //Mueve el avatar n valores hacia atras
+
+//La intruccion retrocede recibe un token numerico luego de esto dibuja una linea recta de de token
+//numerico introducido
+retrocede
     :'retrocede' tokenNumerico
     |'re' tokenNumerico
     ;
-girarderecha //Gira hacia la derecha n angulos
+
+//La instruccion girar derecha reciben un token numerico el cual tomara el valor del angulo al que se mueve
+girarderecha
     :'giraDerecha' tokenNumerico
     |'gd' tokenNumerico
     ;
+//La instruccion girar izquierda reciben un token numerico el cual tomara el valor del angulo al que se mueve
 girarizquierda //Gira a la izquierda n angulos
     :'giraIzquierda' tokenNumerico
     |'gi' tokenNumerico
     ;
+
+//Cuando esta instruccion aparece se oculta la tortuga
 ocultartortuga //Oculta el avatar
     :'ocultatortuga'
     |'ot'
     ;
-aparecertortuga //Aparece el avatar en pantalla
+
+//Cuando esta instruccion aparece se aparece la tortuga
+aparecertortuga
     :'aparecetortuga'
     |'at'
     ;
-ponpos //Coloca a la tortuga en una posicion de cordenadas XY
+
+//Coloca a la tortuga en una posicion de cordenadas XY introducidos por el token numerico
+//Dependiendo de si se utiliza ponpos o ponxy estos valores deveran de estar detro de parentesis cuadrados
+ponpos
     :'ponpos' BRACKET_OPEN tokenNumerico tokenNumerico BRACKET_CLOSE
     |'ponxy' tokenNumerico tokenNumerico
     ;
 
-ponrumbo //Coloca el avatar en dirrecion del angulo
+//La gramatica aplicada toma el valor del token numerico cambia el valor numerico del angulo
+ponrumbo
     :'ponrumbo' tokenNumerico
     ;
-rumbo //Muestra el rumbo
+
+//Muestra el valor del angulo actual
+rumbo
     :'rumbo'
     ;
-ponx //Orientacion de la tortuga
+ //La gramatica de esta funcion recibe un token numerico el cual cambia el valor de la posicion X
+ponx
     :'ponx' tokenNumerico
     ;
-pony //Orientacion de la tortuga
+
+//La gramatica de esta funcion recibe un token numerico el cual cambia el valor de la posicion y
+pony
     :'pony' tokenNumerico
     ;
 
-imprimir //Hacer print
+
+imprimir
     : 'imprimir' token
     ;
 
-goma //Poen lapiz y para borrar
+//Esta funcion se utiliza para borrar
+goma
     :'goma'
     ;
 
-bajalapiz //El lapiz inicia a dibujar
+//El lapiz inicia a dibujar
+bajalapiz
     :'bajalapiz'
     |'bl'
     ;
-subelapiz //El lapiz deja de dibujar cuando se mueve
+//El lapiz deja de dibujar cuando se mueve
+subelapiz
     :'subelapiz'
     |'sb'
     ;
 
-poncolor //Establece el color en el que se pinta
+//La gramatica de esta funcion permite cambiar el colo al dibujar reciviendo un string determinado
+poncolor
     :'poncolorlapiz' string
     |'poncl' string
     ;
-centro //Coloca la tortuga en el centro
+
+//Escribe la posicion XY en el centro de la grmatica
+centro
     :'centro'
     ;
-espera //Espera n/60 segudnos para ejecutar
+//la funcion espera recibe un token numerico en el cual ese valor se dibidira entre 60 para seguir ejecutandose
+espera
     :'espera' tokenNumerico
     ;
 
-ejecuta //Ejecuta una orden directa
+//La gramatica de esta funcion ejecuta una insturccion de forma directa
+ejecuta
     :'ejecuta' BRACKET_OPEN instrucciones BRACKET_CLOSE
     ;
 
-repite//Repite n cantidad de vevces una orden
+//La gramatica de esta funcion ejecuta una instruccion segun el token numerico veces
+repite
     :'repite' tokenNumerico BRACKET_OPEN instrucciones BRACKET_CLOSE
     ;
 
-
-si//Condicion instruccion
+//La gramatica aplica una comparacion logica dentro de los parentesis circulares si esta no se da
+//se aplican las intrucciones establecidas dentro de los parentesis cuadrados
+si
     :'si' PAR_OPEN tokenLogico PAR_CLOSE
      BRACKET_OPEN instrucciones BRACKET_CLOSE
     ;
-sisino //CondiCion y luego iNstruciones
+//Realiza las primeras instrucciones si la condición
+  //expresada se cumple, y realiza el otro grupo de
+  //instrucciones sino se cumple la condición.
+sisino
     :'sisino' PAR_OPEN tokenLogico PAR_CLOSE
      BRACKET_OPEN instrucciones BRACKET_CLOSE
      BRACKET_OPEN instrucciones BRACKET_CLOSE
     ;
-
-hasHasta //Repite la lista de instrucciones tanta veces hasta que se cumpla la condición
+//Repite la lista de instrucciones tantas veces hasta
+  //que se cumpla la condicion. Primero lee el conjunto
+  //de instrucciones, de esta forma se asegura que las
+  //instrucciones se ejecutan al menos una vez antes de
+  //comprobar la condición
+hasHasta
     :'haz.hasta'
       BRACKET_OPEN
             instrucciones
       BRACKET_CLOSE
       BRACKET_OPEN  tokenLogico  BRACKET_CLOSE
     ;
-hasta //Repite la lista de instrucciones tanta veces hasta que se cumpla la condición
+
+//Repite la lista de instrucciones tanta veces
+  //hasta que se cumpla la condición. Si la
+  //condición expresada se cumple no se ejecutan
+  //las instrucciones ni una sola vez.
+hasta
     :'hasta' BRACKET_OPEN  tokenLogico  BRACKET_CLOSE
      BRACKET_OPEN
             instrucciones
      BRACKET_CLOSE
     ;
-
-hazMientras //
+//Repite la lista de instrucciones tantas veces
+  //como se de la condición expresada. Primero
+  //lee el conjunto de instrucciones, de esta forma
+  //se asegura que las instrucciones se ejecutan al
+  //menos una vez antes de comprobar la
+  //condición.
+hazMientras
     :'haz.mientras'
       BRACKET_OPEN
             instrucciones
       BRACKET_CLOSE
       BRACKET_OPEN  tokenLogico  BRACKET_CLOSE
     ;
-
-mientras //Repite las instrucciones mientras se cumplan las condiciones eh intrucciones
+//Repite la lista de instrucciones tanta veces
+//como se de la condición. Si la condición
+//expresada no se cumple no se ejecutan las
+//instrucciones ni una sola vez.
+mientras
     :'mientras' BRACKET_OPEN  tokenLogico  BRACKET_CLOSE
       BRACKET_OPEN
             instrucciones
@@ -200,15 +270,21 @@ booleanos
     | oLogico
     ;
 
-iguales //Devuelve un true si las dos entradas n1,n2 son iguales
+//Devuelve TRUE si token1 y y token2 son iguales, de lo
+  //contario devuelve FALSO.
+iguales
     :'iguales?' tokenNumerico  tokenNumerico
     ;
 
-yLogico //Devuelve cierto si las dos condisiones son ciertas
+//Devuelve TRUE si tanto la condición token1 como token2
+//son ciertos.
+yLogico
     :'y' tokenLogico  tokenLogico
     ;
 
-oLogico //Devuelve cieto al menos una condiccion es cierta
+//Devuelve CIERTO si al menos una de las
+  //condiciones es cierta.
+oLogico
     :'o' tokenLogico  tokenLogico
     ;
 
@@ -235,8 +311,8 @@ operadorCondicional
     | '>'
     | '='
     ;
-
-mayorque //Devuelve si N1 es mayor que N2
+//Devuelve verdadero si token1 es mayor que token2
+mayorque
     : 'mayorque?' tokenNumerico  tokenNumerico
     ;
 menorque //Devuelve si N1 es menor que N2
